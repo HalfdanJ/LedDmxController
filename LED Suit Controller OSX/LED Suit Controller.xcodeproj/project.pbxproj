@@ -1,0 +1,295 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		DD026D0314F2EB4D00BCBFDA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD026D0214F2EB4D00BCBFDA /* Cocoa.framework */; };
+		DD026D0D14F2EB4D00BCBFDA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DD026D0B14F2EB4D00BCBFDA /* InfoPlist.strings */; };
+		DD026D0F14F2EB4D00BCBFDA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DD026D0E14F2EB4D00BCBFDA /* main.m */; };
+		DD026D1314F2EB4D00BCBFDA /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = DD026D1114F2EB4D00BCBFDA /* Credits.rtf */; };
+		DD026D1614F2EB4D00BCBFDA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DD026D1514F2EB4D00BCBFDA /* AppDelegate.m */; };
+		DD026D1914F2EB4D00BCBFDA /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = DD026D1714F2EB4D00BCBFDA /* MainMenu.xib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		DD026CFE14F2EB4D00BCBFDA /* LED Suit Controller.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "LED Suit Controller.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD026D0214F2EB4D00BCBFDA /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		DD026D0514F2EB4D00BCBFDA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		DD026D0614F2EB4D00BCBFDA /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		DD026D0714F2EB4D00BCBFDA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		DD026D0A14F2EB4D00BCBFDA /* LED Suit Controller-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "LED Suit Controller-Info.plist"; sourceTree = "<group>"; };
+		DD026D0C14F2EB4D00BCBFDA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		DD026D0E14F2EB4D00BCBFDA /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		DD026D1014F2EB4D00BCBFDA /* LED Suit Controller-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LED Suit Controller-Prefix.pch"; sourceTree = "<group>"; };
+		DD026D1214F2EB4D00BCBFDA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		DD026D1414F2EB4D00BCBFDA /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		DD026D1514F2EB4D00BCBFDA /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		DD026D1814F2EB4D00BCBFDA /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		DD026CFB14F2EB4D00BCBFDA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DD026D0314F2EB4D00BCBFDA /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		DD026CF314F2EB4D00BCBFDA = {
+			isa = PBXGroup;
+			children = (
+				DD026D0814F2EB4D00BCBFDA /* LED Suit Controller */,
+				DD026D0114F2EB4D00BCBFDA /* Frameworks */,
+				DD026CFF14F2EB4D00BCBFDA /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		DD026CFF14F2EB4D00BCBFDA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DD026CFE14F2EB4D00BCBFDA /* LED Suit Controller.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DD026D0114F2EB4D00BCBFDA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DD026D0214F2EB4D00BCBFDA /* Cocoa.framework */,
+				DD026D0414F2EB4D00BCBFDA /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		DD026D0414F2EB4D00BCBFDA /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DD026D0514F2EB4D00BCBFDA /* AppKit.framework */,
+				DD026D0614F2EB4D00BCBFDA /* CoreData.framework */,
+				DD026D0714F2EB4D00BCBFDA /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		DD026D0814F2EB4D00BCBFDA /* LED Suit Controller */ = {
+			isa = PBXGroup;
+			children = (
+				DD026D1414F2EB4D00BCBFDA /* AppDelegate.h */,
+				DD026D1514F2EB4D00BCBFDA /* AppDelegate.m */,
+				DD026D1714F2EB4D00BCBFDA /* MainMenu.xib */,
+				DD026D0914F2EB4D00BCBFDA /* Supporting Files */,
+			);
+			path = "LED Suit Controller";
+			sourceTree = "<group>";
+		};
+		DD026D0914F2EB4D00BCBFDA /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				DD026D0A14F2EB4D00BCBFDA /* LED Suit Controller-Info.plist */,
+				DD026D0B14F2EB4D00BCBFDA /* InfoPlist.strings */,
+				DD026D0E14F2EB4D00BCBFDA /* main.m */,
+				DD026D1014F2EB4D00BCBFDA /* LED Suit Controller-Prefix.pch */,
+				DD026D1114F2EB4D00BCBFDA /* Credits.rtf */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		DD026CFD14F2EB4D00BCBFDA /* LED Suit Controller */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DD026D1C14F2EB4D00BCBFDA /* Build configuration list for PBXNativeTarget "LED Suit Controller" */;
+			buildPhases = (
+				DD026CFA14F2EB4D00BCBFDA /* Sources */,
+				DD026CFB14F2EB4D00BCBFDA /* Frameworks */,
+				DD026CFC14F2EB4D00BCBFDA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "LED Suit Controller";
+			productName = "LED Suit Controller";
+			productReference = DD026CFE14F2EB4D00BCBFDA /* LED Suit Controller.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		DD026CF514F2EB4D00BCBFDA /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+			};
+			buildConfigurationList = DD026CF814F2EB4D00BCBFDA /* Build configuration list for PBXProject "LED Suit Controller" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = DD026CF314F2EB4D00BCBFDA;
+			productRefGroup = DD026CFF14F2EB4D00BCBFDA /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				DD026CFD14F2EB4D00BCBFDA /* LED Suit Controller */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		DD026CFC14F2EB4D00BCBFDA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DD026D0D14F2EB4D00BCBFDA /* InfoPlist.strings in Resources */,
+				DD026D1314F2EB4D00BCBFDA /* Credits.rtf in Resources */,
+				DD026D1914F2EB4D00BCBFDA /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		DD026CFA14F2EB4D00BCBFDA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DD026D0F14F2EB4D00BCBFDA /* main.m in Sources */,
+				DD026D1614F2EB4D00BCBFDA /* AppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		DD026D0B14F2EB4D00BCBFDA /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DD026D0C14F2EB4D00BCBFDA /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		DD026D1114F2EB4D00BCBFDA /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DD026D1214F2EB4D00BCBFDA /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		DD026D1714F2EB4D00BCBFDA /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DD026D1814F2EB4D00BCBFDA /* en */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		DD026D1A14F2EB4D00BCBFDA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx10.6;
+			};
+			name = Debug;
+		};
+		DD026D1B14F2EB4D00BCBFDA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx10.6;
+			};
+			name = Release;
+		};
+		DD026D1D14F2EB4D00BCBFDA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "LED Suit Controller/LED Suit Controller-Prefix.pch";
+				INFOPLIST_FILE = "LED Suit Controller/LED Suit Controller-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		DD026D1E14F2EB4D00BCBFDA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "LED Suit Controller/LED Suit Controller-Prefix.pch";
+				INFOPLIST_FILE = "LED Suit Controller/LED Suit Controller-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		DD026CF814F2EB4D00BCBFDA /* Build configuration list for PBXProject "LED Suit Controller" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DD026D1A14F2EB4D00BCBFDA /* Debug */,
+				DD026D1B14F2EB4D00BCBFDA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DD026D1C14F2EB4D00BCBFDA /* Build configuration list for PBXNativeTarget "LED Suit Controller" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DD026D1D14F2EB4D00BCBFDA /* Debug */,
+				DD026D1E14F2EB4D00BCBFDA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = DD026CF514F2EB4D00BCBFDA /* Project object */;
+}

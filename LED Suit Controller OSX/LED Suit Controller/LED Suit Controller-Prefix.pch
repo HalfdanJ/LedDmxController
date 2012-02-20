@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'LED Suit Controller' target in the 'LED Suit Controller' project
+//
+
+#ifdef __OBJC__
+    #import <Cocoa/Cocoa.h>
+#endif
