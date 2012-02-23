@@ -11,8 +11,12 @@
 		DD026D0D14F2EB4D00BCBFDA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DD026D0B14F2EB4D00BCBFDA /* InfoPlist.strings */; };
 		DD026D0F14F2EB4D00BCBFDA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DD026D0E14F2EB4D00BCBFDA /* main.m */; };
 		DD026D1314F2EB4D00BCBFDA /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = DD026D1114F2EB4D00BCBFDA /* Credits.rtf */; };
-		DD026D1614F2EB4D00BCBFDA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DD026D1514F2EB4D00BCBFDA /* AppDelegate.m */; };
+		DD026D1614F2EB4D00BCBFDA /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = DD026D1514F2EB4D00BCBFDA /* AppDelegate.mm */; };
 		DD026D1914F2EB4D00BCBFDA /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = DD026D1714F2EB4D00BCBFDA /* MainMenu.xib */; };
+		DD8CDECD14F2EE4000988BB3 /* ArtnetController.mm in Sources */ = {isa = PBXBuildFile; fileRef = DD8CDECC14F2EE4000988BB3 /* ArtnetController.mm */; };
+		DD8CDED014F2F1A100988BB3 /* libola.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DD8CDECF14F2F1A100988BB3 /* libola.dylib */; };
+		DD8CDED214F2F1AA00988BB3 /* libprotobuf.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DD8CDED114F2F1AA00988BB3 /* libprotobuf.dylib */; };
+		DD8CDED414F2F1B200988BB3 /* libolacommon.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DD8CDED314F2F1B200988BB3 /* libolacommon.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,8 +31,13 @@
 		DD026D1014F2EB4D00BCBFDA /* LED Suit Controller-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LED Suit Controller-Prefix.pch"; sourceTree = "<group>"; };
 		DD026D1214F2EB4D00BCBFDA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
 		DD026D1414F2EB4D00BCBFDA /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		DD026D1514F2EB4D00BCBFDA /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		DD026D1514F2EB4D00BCBFDA /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
 		DD026D1814F2EB4D00BCBFDA /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		DD8CDECB14F2EE4000988BB3 /* ArtnetController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArtnetController.h; sourceTree = "<group>"; };
+		DD8CDECC14F2EE4000988BB3 /* ArtnetController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ArtnetController.mm; sourceTree = "<group>"; };
+		DD8CDECF14F2F1A100988BB3 /* libola.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libola.dylib; path = usr/local/lib/libola.dylib; sourceTree = SDKROOT; };
+		DD8CDED114F2F1AA00988BB3 /* libprotobuf.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libprotobuf.dylib; path = usr/local/lib/libprotobuf.dylib; sourceTree = SDKROOT; };
+		DD8CDED314F2F1B200988BB3 /* libolacommon.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libolacommon.dylib; path = usr/local/lib/libolacommon.dylib; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -36,6 +45,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DD8CDED414F2F1B200988BB3 /* libolacommon.dylib in Frameworks */,
+				DD8CDED214F2F1AA00988BB3 /* libprotobuf.dylib in Frameworks */,
+				DD8CDED014F2F1A100988BB3 /* libola.dylib in Frameworks */,
 				DD026D0314F2EB4D00BCBFDA /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -72,6 +84,9 @@
 		DD026D0414F2EB4D00BCBFDA /* Other Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DD8CDED314F2F1B200988BB3 /* libolacommon.dylib */,
+				DD8CDED114F2F1AA00988BB3 /* libprotobuf.dylib */,
+				DD8CDECF14F2F1A100988BB3 /* libola.dylib */,
 				DD026D0514F2EB4D00BCBFDA /* AppKit.framework */,
 				DD026D0614F2EB4D00BCBFDA /* CoreData.framework */,
 				DD026D0714F2EB4D00BCBFDA /* Foundation.framework */,
@@ -83,7 +98,9 @@
 			isa = PBXGroup;
 			children = (
 				DD026D1414F2EB4D00BCBFDA /* AppDelegate.h */,
-				DD026D1514F2EB4D00BCBFDA /* AppDelegate.m */,
+				DD026D1514F2EB4D00BCBFDA /* AppDelegate.mm */,
+				DD8CDECB14F2EE4000988BB3 /* ArtnetController.h */,
+				DD8CDECC14F2EE4000988BB3 /* ArtnetController.mm */,
 				DD026D1714F2EB4D00BCBFDA /* MainMenu.xib */,
 				DD026D0914F2EB4D00BCBFDA /* Supporting Files */,
 			);
@@ -129,6 +146,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0420;
+				ORGANIZATIONNAME = HalfdanJ;
 			};
 			buildConfigurationList = DD026CF814F2EB4D00BCBFDA /* Build configuration list for PBXProject "LED Suit Controller" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -166,7 +184,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				DD026D0F14F2EB4D00BCBFDA /* main.m in Sources */,
-				DD026D1614F2EB4D00BCBFDA /* AppDelegate.m in Sources */,
+				DD026D1614F2EB4D00BCBFDA /* AppDelegate.mm in Sources */,
+				DD8CDECD14F2EE4000988BB3 /* ArtnetController.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -248,6 +267,7 @@
 		DD026D1D14F2EB4D00BCBFDA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_ENABLE_OBJC_GC = required;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "LED Suit Controller/LED Suit Controller-Prefix.pch";
 				INFOPLIST_FILE = "LED Suit Controller/LED Suit Controller-Info.plist";
@@ -260,6 +280,7 @@
 		DD026D1E14F2EB4D00BCBFDA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_ENABLE_OBJC_GC = required;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "LED Suit Controller/LED Suit Controller-Prefix.pch";
 				INFOPLIST_FILE = "LED Suit Controller/LED Suit Controller-Info.plist";
@@ -288,6 +309,7 @@
 				DD026D1E14F2EB4D00BCBFDA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
