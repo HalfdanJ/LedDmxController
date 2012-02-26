@@ -13,10 +13,17 @@
 		DD026D1314F2EB4D00BCBFDA /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = DD026D1114F2EB4D00BCBFDA /* Credits.rtf */; };
 		DD026D1614F2EB4D00BCBFDA /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = DD026D1514F2EB4D00BCBFDA /* AppDelegate.mm */; };
 		DD026D1914F2EB4D00BCBFDA /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = DD026D1714F2EB4D00BCBFDA /* MainMenu.xib */; };
-		DD8CDECD14F2EE4000988BB3 /* ArtnetController.mm in Sources */ = {isa = PBXBuildFile; fileRef = DD8CDECC14F2EE4000988BB3 /* ArtnetController.mm */; };
-		DD8CDED014F2F1A100988BB3 /* libola.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DD8CDECF14F2F1A100988BB3 /* libola.dylib */; };
-		DD8CDED214F2F1AA00988BB3 /* libprotobuf.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DD8CDED114F2F1AA00988BB3 /* libprotobuf.dylib */; };
-		DD8CDED414F2F1B200988BB3 /* libolacommon.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DD8CDED314F2F1B200988BB3 /* libolacommon.dylib */; };
+		DD37E25314F6CB4E0024AD53 /* Documentation.html in Resources */ = {isa = PBXBuildFile; fileRef = DD37E18714F6CB4D0024AD53 /* Documentation.html */; };
+		DD37E25414F6CB4E0024AD53 /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = DD37E18914F6CB4D0024AD53 /* GCDAsyncSocket.m */; };
+		DD37E25514F6CB4E0024AD53 /* GCDAsyncUdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = DD37E18B14F6CB4D0024AD53 /* GCDAsyncUdpSocket.m */; };
+		DD37E2C114F6CB880024AD53 /* DDAbstractDatabaseLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = DD37E2B814F6CB880024AD53 /* DDAbstractDatabaseLogger.m */; };
+		DD37E2C214F6CB880024AD53 /* DDASLLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = DD37E2BA14F6CB880024AD53 /* DDASLLogger.m */; };
+		DD37E2C314F6CB880024AD53 /* DDFileLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = DD37E2BC14F6CB880024AD53 /* DDFileLogger.m */; };
+		DD37E2C414F6CB880024AD53 /* DDLog.m in Sources */ = {isa = PBXBuildFile; fileRef = DD37E2BE14F6CB880024AD53 /* DDLog.m */; };
+		DD37E2C514F6CB880024AD53 /* DDTTYLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = DD37E2C014F6CB880024AD53 /* DDTTYLogger.m */; };
+		DD37E2C714F6CE470024AD53 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD37E2C614F6CE470024AD53 /* Security.framework */; };
+		DDAEB28F14FA6C3E0099768F /* XbeeController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAEB28E14FA6C3E0099768F /* XbeeController.m */; };
+		DDAEB29814FA6DC40099768F /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDAEB29714FA6DC40099768F /* IOKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,11 +40,28 @@
 		DD026D1414F2EB4D00BCBFDA /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		DD026D1514F2EB4D00BCBFDA /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
 		DD026D1814F2EB4D00BCBFDA /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		DD8CDECB14F2EE4000988BB3 /* ArtnetController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArtnetController.h; sourceTree = "<group>"; };
-		DD8CDECC14F2EE4000988BB3 /* ArtnetController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ArtnetController.mm; sourceTree = "<group>"; };
+		DD37E18714F6CB4D0024AD53 /* Documentation.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Documentation.html; sourceTree = "<group>"; };
+		DD37E18814F6CB4D0024AD53 /* GCDAsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCDAsyncSocket.h; sourceTree = "<group>"; };
+		DD37E18914F6CB4D0024AD53 /* GCDAsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCDAsyncSocket.m; sourceTree = "<group>"; };
+		DD37E18A14F6CB4D0024AD53 /* GCDAsyncUdpSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCDAsyncUdpSocket.h; sourceTree = "<group>"; };
+		DD37E18B14F6CB4D0024AD53 /* GCDAsyncUdpSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCDAsyncUdpSocket.m; sourceTree = "<group>"; };
+		DD37E2B714F6CB880024AD53 /* DDAbstractDatabaseLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDAbstractDatabaseLogger.h; sourceTree = "<group>"; };
+		DD37E2B814F6CB880024AD53 /* DDAbstractDatabaseLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDAbstractDatabaseLogger.m; sourceTree = "<group>"; };
+		DD37E2B914F6CB880024AD53 /* DDASLLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDASLLogger.h; sourceTree = "<group>"; };
+		DD37E2BA14F6CB880024AD53 /* DDASLLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDASLLogger.m; sourceTree = "<group>"; };
+		DD37E2BB14F6CB880024AD53 /* DDFileLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDFileLogger.h; sourceTree = "<group>"; };
+		DD37E2BC14F6CB880024AD53 /* DDFileLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDFileLogger.m; sourceTree = "<group>"; };
+		DD37E2BD14F6CB880024AD53 /* DDLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDLog.h; sourceTree = "<group>"; };
+		DD37E2BE14F6CB880024AD53 /* DDLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDLog.m; sourceTree = "<group>"; };
+		DD37E2BF14F6CB880024AD53 /* DDTTYLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDTTYLogger.h; sourceTree = "<group>"; };
+		DD37E2C014F6CB880024AD53 /* DDTTYLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDTTYLogger.m; sourceTree = "<group>"; };
+		DD37E2C614F6CE470024AD53 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		DD8CDECF14F2F1A100988BB3 /* libola.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libola.dylib; path = usr/local/lib/libola.dylib; sourceTree = SDKROOT; };
 		DD8CDED114F2F1AA00988BB3 /* libprotobuf.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libprotobuf.dylib; path = usr/local/lib/libprotobuf.dylib; sourceTree = SDKROOT; };
 		DD8CDED314F2F1B200988BB3 /* libolacommon.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libolacommon.dylib; path = usr/local/lib/libolacommon.dylib; sourceTree = SDKROOT; };
+		DDAEB28D14FA6C3E0099768F /* XbeeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XbeeController.h; sourceTree = "<group>"; };
+		DDAEB28E14FA6C3E0099768F /* XbeeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XbeeController.m; sourceTree = "<group>"; };
+		DDAEB29714FA6DC40099768F /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,9 +69,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DD8CDED414F2F1B200988BB3 /* libolacommon.dylib in Frameworks */,
-				DD8CDED214F2F1AA00988BB3 /* libprotobuf.dylib in Frameworks */,
-				DD8CDED014F2F1A100988BB3 /* libola.dylib in Frameworks */,
+				DDAEB29814FA6DC40099768F /* IOKit.framework in Frameworks */,
+				DD37E2C714F6CE470024AD53 /* Security.framework in Frameworks */,
 				DD026D0314F2EB4D00BCBFDA /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -58,6 +81,8 @@
 		DD026CF314F2EB4D00BCBFDA = {
 			isa = PBXGroup;
 			children = (
+				DDAEB29714FA6DC40099768F /* IOKit.framework */,
+				DD37E2C614F6CE470024AD53 /* Security.framework */,
 				DD026D0814F2EB4D00BCBFDA /* LED Suit Controller */,
 				DD026D0114F2EB4D00BCBFDA /* Frameworks */,
 				DD026CFF14F2EB4D00BCBFDA /* Products */,
@@ -75,6 +100,8 @@
 		DD026D0114F2EB4D00BCBFDA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DD37E2B614F6CB880024AD53 /* CocoaLumberjack */,
+				DD37E18614F6CB4D0024AD53 /* GCD */,
 				DD026D0214F2EB4D00BCBFDA /* Cocoa.framework */,
 				DD026D0414F2EB4D00BCBFDA /* Other Frameworks */,
 			);
@@ -99,10 +126,10 @@
 			children = (
 				DD026D1414F2EB4D00BCBFDA /* AppDelegate.h */,
 				DD026D1514F2EB4D00BCBFDA /* AppDelegate.mm */,
-				DD8CDECB14F2EE4000988BB3 /* ArtnetController.h */,
-				DD8CDECC14F2EE4000988BB3 /* ArtnetController.mm */,
 				DD026D1714F2EB4D00BCBFDA /* MainMenu.xib */,
 				DD026D0914F2EB4D00BCBFDA /* Supporting Files */,
+				DDAEB28D14FA6C3E0099768F /* XbeeController.h */,
+				DDAEB28E14FA6C3E0099768F /* XbeeController.m */,
 			);
 			path = "LED Suit Controller";
 			sourceTree = "<group>";
@@ -117,6 +144,37 @@
 				DD026D1114F2EB4D00BCBFDA /* Credits.rtf */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		DD37E18614F6CB4D0024AD53 /* GCD */ = {
+			isa = PBXGroup;
+			children = (
+				DD37E18714F6CB4D0024AD53 /* Documentation.html */,
+				DD37E18814F6CB4D0024AD53 /* GCDAsyncSocket.h */,
+				DD37E18914F6CB4D0024AD53 /* GCDAsyncSocket.m */,
+				DD37E18A14F6CB4D0024AD53 /* GCDAsyncUdpSocket.h */,
+				DD37E18B14F6CB4D0024AD53 /* GCDAsyncUdpSocket.m */,
+			);
+			name = GCD;
+			path = Frameworks/CocoaAsyncSocket/GCD;
+			sourceTree = "<group>";
+		};
+		DD37E2B614F6CB880024AD53 /* CocoaLumberjack */ = {
+			isa = PBXGroup;
+			children = (
+				DD37E2B714F6CB880024AD53 /* DDAbstractDatabaseLogger.h */,
+				DD37E2B814F6CB880024AD53 /* DDAbstractDatabaseLogger.m */,
+				DD37E2B914F6CB880024AD53 /* DDASLLogger.h */,
+				DD37E2BA14F6CB880024AD53 /* DDASLLogger.m */,
+				DD37E2BB14F6CB880024AD53 /* DDFileLogger.h */,
+				DD37E2BC14F6CB880024AD53 /* DDFileLogger.m */,
+				DD37E2BD14F6CB880024AD53 /* DDLog.h */,
+				DD37E2BE14F6CB880024AD53 /* DDLog.m */,
+				DD37E2BF14F6CB880024AD53 /* DDTTYLogger.h */,
+				DD37E2C014F6CB880024AD53 /* DDTTYLogger.m */,
+			);
+			name = CocoaLumberjack;
+			path = Frameworks/CocoaAsyncSocket/Vendor/CocoaLumberjack;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -154,6 +212,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				English,
 			);
 			mainGroup = DD026CF314F2EB4D00BCBFDA;
 			productRefGroup = DD026CFF14F2EB4D00BCBFDA /* Products */;
@@ -173,6 +232,7 @@
 				DD026D0D14F2EB4D00BCBFDA /* InfoPlist.strings in Resources */,
 				DD026D1314F2EB4D00BCBFDA /* Credits.rtf in Resources */,
 				DD026D1914F2EB4D00BCBFDA /* MainMenu.xib in Resources */,
+				DD37E25314F6CB4E0024AD53 /* Documentation.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -185,7 +245,14 @@
 			files = (
 				DD026D0F14F2EB4D00BCBFDA /* main.m in Sources */,
 				DD026D1614F2EB4D00BCBFDA /* AppDelegate.mm in Sources */,
-				DD8CDECD14F2EE4000988BB3 /* ArtnetController.mm in Sources */,
+				DD37E25414F6CB4E0024AD53 /* GCDAsyncSocket.m in Sources */,
+				DD37E25514F6CB4E0024AD53 /* GCDAsyncUdpSocket.m in Sources */,
+				DD37E2C114F6CB880024AD53 /* DDAbstractDatabaseLogger.m in Sources */,
+				DD37E2C214F6CB880024AD53 /* DDASLLogger.m in Sources */,
+				DD37E2C314F6CB880024AD53 /* DDFileLogger.m in Sources */,
+				DD37E2C414F6CB880024AD53 /* DDLog.m in Sources */,
+				DD37E2C514F6CB880024AD53 /* DDTTYLogger.m in Sources */,
+				DDAEB28F14FA6C3E0099768F /* XbeeController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -241,7 +308,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = macosx10.6;
+				SDKROOT = macosx10.7;
 			};
 			name = Debug;
 		};
@@ -260,7 +327,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				SDKROOT = macosx10.6;
+				SDKROOT = macosx10.7;
 			};
 			name = Release;
 		};
