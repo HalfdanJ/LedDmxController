@@ -2,6 +2,7 @@ const int MAX_DATA_SIZE = 255;
 unsigned char TYPE_PING = 'P';
 unsigned char TYPE_STATUS = 'S';
 unsigned char TYPE_VALUES = 'V';
+unsigned char TYPE_BULK_VALUES = 'B';
 
 unsigned char CENTRAL = 254;
 
@@ -46,7 +47,7 @@ ArduinoLinkMessage * parseArduinoMessage(){
   msgCache.complete = false;
 
   while(Serial.available()){
-        digitalWrite(13, HIGH);
+     //   digitalWrite(13, HIGH);
     if(incommingPos == 0){
 //      Serial.println("START");
 

@@ -24,6 +24,12 @@
 		DD37E2C714F6CE470024AD53 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD37E2C614F6CE470024AD53 /* Security.framework */; };
 		DDAEB28F14FA6C3E0099768F /* XbeeController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAEB28E14FA6C3E0099768F /* XbeeController.m */; };
 		DDAEB29814FA6DC40099768F /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDAEB29714FA6DC40099768F /* IOKit.framework */; };
+		DDAEB2B014FA747E0099768F /* AMSerialPort.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAEB2A514FA747E0099768F /* AMSerialPort.m */; };
+		DDAEB2B114FA747E0099768F /* AMSerialPort_Deprecated.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAEB2A714FA747E0099768F /* AMSerialPort_Deprecated.m */; };
+		DDAEB2B214FA747E0099768F /* AMSerialPortAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAEB2A914FA747E0099768F /* AMSerialPortAdditions.m */; };
+		DDAEB2B314FA747E0099768F /* AMSerialPortList.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAEB2AB14FA747E0099768F /* AMSerialPortList.m */; };
+		DDAEB2B414FA747E0099768F /* AMSerialPortList_Deprecated.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAEB2AD14FA747E0099768F /* AMSerialPortList_Deprecated.m */; };
+		DDAEB2B514FA747E0099768F /* AMStandardEnumerator.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAEB2AF14FA747E0099768F /* AMStandardEnumerator.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -62,6 +68,20 @@
 		DDAEB28D14FA6C3E0099768F /* XbeeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XbeeController.h; sourceTree = "<group>"; };
 		DDAEB28E14FA6C3E0099768F /* XbeeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XbeeController.m; sourceTree = "<group>"; };
 		DDAEB29714FA6DC40099768F /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		DDAEB2A214FA747E0099768F /* AMSDKCompatibility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMSDKCompatibility.h; sourceTree = "<group>"; };
+		DDAEB2A314FA747E0099768F /* AMSerialErrors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMSerialErrors.h; sourceTree = "<group>"; };
+		DDAEB2A414FA747E0099768F /* AMSerialPort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMSerialPort.h; sourceTree = "<group>"; };
+		DDAEB2A514FA747E0099768F /* AMSerialPort.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMSerialPort.m; sourceTree = "<group>"; };
+		DDAEB2A614FA747E0099768F /* AMSerialPort_Deprecated.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMSerialPort_Deprecated.h; sourceTree = "<group>"; };
+		DDAEB2A714FA747E0099768F /* AMSerialPort_Deprecated.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMSerialPort_Deprecated.m; sourceTree = "<group>"; };
+		DDAEB2A814FA747E0099768F /* AMSerialPortAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMSerialPortAdditions.h; sourceTree = "<group>"; };
+		DDAEB2A914FA747E0099768F /* AMSerialPortAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMSerialPortAdditions.m; sourceTree = "<group>"; };
+		DDAEB2AA14FA747E0099768F /* AMSerialPortList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMSerialPortList.h; sourceTree = "<group>"; };
+		DDAEB2AB14FA747E0099768F /* AMSerialPortList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMSerialPortList.m; sourceTree = "<group>"; };
+		DDAEB2AC14FA747E0099768F /* AMSerialPortList_Deprecated.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMSerialPortList_Deprecated.h; sourceTree = "<group>"; };
+		DDAEB2AD14FA747E0099768F /* AMSerialPortList_Deprecated.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMSerialPortList_Deprecated.m; sourceTree = "<group>"; };
+		DDAEB2AE14FA747E0099768F /* AMStandardEnumerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMStandardEnumerator.h; sourceTree = "<group>"; };
+		DDAEB2AF14FA747E0099768F /* AMStandardEnumerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMStandardEnumerator.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +120,7 @@
 		DD026D0114F2EB4D00BCBFDA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DDAEB2A114FA747E0099768F /* SerialStuff */,
 				DD37E2B614F6CB880024AD53 /* CocoaLumberjack */,
 				DD37E18614F6CB4D0024AD53 /* GCD */,
 				DD026D0214F2EB4D00BCBFDA /* Cocoa.framework */,
@@ -175,6 +196,28 @@
 			);
 			name = CocoaLumberjack;
 			path = Frameworks/CocoaAsyncSocket/Vendor/CocoaLumberjack;
+			sourceTree = "<group>";
+		};
+		DDAEB2A114FA747E0099768F /* SerialStuff */ = {
+			isa = PBXGroup;
+			children = (
+				DDAEB2A214FA747E0099768F /* AMSDKCompatibility.h */,
+				DDAEB2A314FA747E0099768F /* AMSerialErrors.h */,
+				DDAEB2A414FA747E0099768F /* AMSerialPort.h */,
+				DDAEB2A514FA747E0099768F /* AMSerialPort.m */,
+				DDAEB2A614FA747E0099768F /* AMSerialPort_Deprecated.h */,
+				DDAEB2A714FA747E0099768F /* AMSerialPort_Deprecated.m */,
+				DDAEB2A814FA747E0099768F /* AMSerialPortAdditions.h */,
+				DDAEB2A914FA747E0099768F /* AMSerialPortAdditions.m */,
+				DDAEB2AA14FA747E0099768F /* AMSerialPortList.h */,
+				DDAEB2AB14FA747E0099768F /* AMSerialPortList.m */,
+				DDAEB2AC14FA747E0099768F /* AMSerialPortList_Deprecated.h */,
+				DDAEB2AD14FA747E0099768F /* AMSerialPortList_Deprecated.m */,
+				DDAEB2AE14FA747E0099768F /* AMStandardEnumerator.h */,
+				DDAEB2AF14FA747E0099768F /* AMStandardEnumerator.m */,
+			);
+			name = SerialStuff;
+			path = SharedCode;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -253,6 +296,12 @@
 				DD37E2C414F6CB880024AD53 /* DDLog.m in Sources */,
 				DD37E2C514F6CB880024AD53 /* DDTTYLogger.m in Sources */,
 				DDAEB28F14FA6C3E0099768F /* XbeeController.m in Sources */,
+				DDAEB2B014FA747E0099768F /* AMSerialPort.m in Sources */,
+				DDAEB2B114FA747E0099768F /* AMSerialPort_Deprecated.m in Sources */,
+				DDAEB2B214FA747E0099768F /* AMSerialPortAdditions.m in Sources */,
+				DDAEB2B314FA747E0099768F /* AMSerialPortList.m in Sources */,
+				DDAEB2B414FA747E0099768F /* AMSerialPortList_Deprecated.m in Sources */,
+				DDAEB2B514FA747E0099768F /* AMStandardEnumerator.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -334,7 +383,7 @@
 		DD026D1D14F2EB4D00BCBFDA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_ENABLE_OBJC_GC = required;
+				GCC_ENABLE_OBJC_GC = unsupported;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "LED Suit Controller/LED Suit Controller-Prefix.pch";
 				INFOPLIST_FILE = "LED Suit Controller/LED Suit Controller-Info.plist";
@@ -347,7 +396,7 @@
 		DD026D1E14F2EB4D00BCBFDA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_ENABLE_OBJC_GC = required;
+				GCC_ENABLE_OBJC_GC = unsupported;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "LED Suit Controller/LED Suit Controller-Prefix.pch";
 				INFOPLIST_FILE = "LED Suit Controller/LED Suit Controller-Info.plist";
