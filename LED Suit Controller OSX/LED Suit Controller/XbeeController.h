@@ -20,17 +20,21 @@
 
 #define MAX_DATA_SIZE 256
 #define NUM_CLIENTS 12
-#define NUM_PIXELS 160
+#define NUM_PIXELS 158
 //#define NUM_PIXELS 32
 #define BAUDRATE 57600          
-
+//#define DEBUG_LOG
 enum ProtocolTypes {
     PING = 0x01,
     STATUS = 0x02,
     VALUES = 0x03,
     BULK_VALUES = 0x04,
     CLOCK = 0x05,
-    ALIVE = 0x06
+    ALIVE = 0x06,
+    BULK_ALL_STRIPS = 0x07,
+    BULK_SEGMENT_MULTI_SUIT = 0x08,
+    BULK_STRIP_MULTI_SUIT = 0x09
+
 };
 
 #define multicastByte 14

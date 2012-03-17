@@ -83,12 +83,246 @@
 -(void) sendValues {
     if(pixelsUpdated){
         [lock lock];
-        BOOL anythingSend = false;
+        int numSend = 0;
         int bytesSend = 0;
         
         //    NSLog(@"%f",clients[0].pixels[21].r);
         
         for(int i=0;i< NUM_CLIENTS;i++){
+            //Find ud af om der er opdateringer i dragten
+            BOOL clientUpdated = NO;
+            for(int u=0;u<NUM_PIXELS;u++){
+                if(![self pixel:clients[i].pixels[u] isEqualTo:clients[i].sendPixels[u]]){
+                    clientUpdated = YES;
+                //    NSLog(@" Pixel %i updated (%f != %f)",u,clients[i].pixels[u].r, clients[i].sendPixels[u]);
+                    break;
+                }
+            }
+            
+            if(clientUpdated){
+              //  NSLog(@"Client %i updated",i);
+                
+                //Er alle pixels ens? 
+                BOOL allTheSame = YES;
+                Pixel _pixel = clients[i].pixels[0];
+                for(int u=1;u<NUM_PIXELS;u++){
+                    if(![self pixel:clients[i].pixels[u] isEqualTo:_pixel]){
+                        allTheSame = NO;
+                       // NSLog(@" Pixel %i not the same (%f != %f)",u,clients[i].pixels[u].b, _pixel.b);
+                        break;
+                    }
+                }
+                if(allTheSame){
+                  //  NSLog(@"All the same!");
+#pragma mark BULK ALL STRIPS
+                    ArduinoLinkMessage msg;
+                    msg.type = BULK_ALL_STRIPS;
+                    msg.length = 5;
+                    msg.data[0] = 0x00;
+                    msg.data[1] = 0x00;     
+                    
+                    if(i < 8){
+                        msg.data[0] += 1 << i;
+                    } else {
+                        msg.data[1] += 1 << (i-8);
+                    }
+                                        
+                    msg.data[2] = clients[i].pixels[0].r*100;
+                    msg.data[3] = clients[i].pixels[0].g*100;
+                    msg.data[4] = clients[i].pixels[0].b*100;
+
+                    //Andre dragte med samme værdier?
+                    for(int j=0;j< NUM_CLIENTS;j++){
+                        bool same = YES;
+                        for(int u=0;u<NUM_PIXELS;u++){
+                            if(j != i && ![self pixel:clients[j].pixels[u] isEqualTo:clients[i].pixels[0]]){
+                                same = NO;
+                                break;
+                            }
+                        }
+                        
+                        if(same && j != i ){
+                            if(j < 8){
+                                msg.data[0] += 1 << j;
+                            } else {
+                                msg.data[1] += 1 << (j-8);
+                            }
+                            for(int u=0;u<NUM_PIXELS;u++){
+                                clients[j].sendPixels[u] = clients[i].pixels[0];
+                                clients[j].sendPixels[u].justSend = YES;
+                                
+                            }
+                            
+                            //    NSLog(@"client %i same as %i",j,i);
+                            
+                        }
+                    }
+                    
+                    for(int u=0;u<NUM_PIXELS;u++){
+                        clients[i].sendPixels[u] = clients[i].pixels[0];
+                        clients[i].sendPixels[u].justSend = YES;
+                        
+                    }
+                    [self serialBufferMessage:msg];
+                    #ifdef DEBUG_LOG
+                                                    NSLog(@"Send BULK_ALL_STRIPS  %i  :  %X %X",i,msg.data[1],msg.data[0]);
+#endif
+                    numSend++;
+                    
+                    
+                } else {
+                    // NSLog(@"NOT the same!");                    
+                    
+                    //Find similair suits
+                    int numSimilair = 0;
+                    bool similair[NUM_CLIENTS];
+                    for(int j=0;j< NUM_CLIENTS;j++){
+                        similair[j] = NO;
+                    
+                        bool same = YES;
+                        for(int u=0;u<NUM_PIXELS;u++){
+                            if(j != i && ![self pixel:clients[j].pixels[u] isEqualTo:clients[i].pixels[u]]){
+                                same = NO;
+                                break;
+                            }
+                        }
+                        
+                        if(i!=j && same){
+                            similair[j] = YES;
+                            numSimilair ++;
+                        }
+                        if(i == j)
+                            similair[j] = YES;
+                    }
+                    
+                    if(numSimilair >= 0){
+                        ArduinoLinkMessage msg;
+                        msg.type = BULK_STRIP_MULTI_SUIT;
+                        msg.length = 6;
+                        msg.data[0] = 0x00;
+                        msg.data[1] = 0x00;     
+                       
+                        for(int j=0;j< NUM_CLIENTS;j++){
+                            if(similair[j]){
+                                if(j < 8){
+                                    msg.data[0] += 1 << j;
+                                } else {
+                                    msg.data[1] += 1 << (j-8);
+                                }
+                            }
+                        }    
+                        
+                        
+                        //All whole strips first
+                        Pixel _pixel;
+                        int _strip = -1;
+                        BOOL allTheSame[5];
+                        BOOL updatesOnStrip[5];
+                        Pixel stripPixel[5];
+                        for(int u=0;u<NUM_PIXELS;u++){
+                            if([self stripForPixel:u] != _strip){
+                                _strip = [self stripForPixel:u];
+                                allTheSame[_strip] = YES;
+                                _pixel = clients[i].pixels[u];
+                                stripPixel[_strip] = _pixel;
+                                updatesOnStrip[_strip] = NO;
+
+                            } else {
+                                if(![self pixel:clients[i].pixels[u] isEqualTo:clients[i].sendPixels[u]]){
+                                    updatesOnStrip[_strip] = YES;
+                                }
+                                if(![self pixel:_pixel isEqualTo:clients[i].pixels[u]]){
+                                    allTheSame[_strip] = NO;
+                                }
+                            }
+                        }
+                        
+                        for(int strip=0;strip<5;strip++){
+                            if(allTheSame[strip] && updatesOnStrip[strip]){
+//                                NSLog(@"All the same on strip %i",strip);
+                                
+                                msg.data[2] = strip;
+                                msg.data[3] = stripPixel[strip].r*100;
+                                msg.data[4] = stripPixel[strip].g*100;
+                                msg.data[5] = stripPixel[strip].b*100;
+                               
+                                [self serialBufferMessage:msg];
+                                #ifdef DEBUG_LOG
+                                                              NSLog(@"Send BULK_STRIP_MULTI_SUIT  Client: %i  Strip: %i",i, strip);
+#endif
+                                numSend ++;
+
+                                for(int q=0;q<NUM_CLIENTS;q++){
+                                    if(similair[q]){
+                                        for(int j=0;j<NUM_PIXELS;j++){
+                                            if([self stripForPixel:j] == strip){
+                                                clients[q].sendPixels[j] = clients[q].pixels[j];
+                                                clients[q].sendPixels[j].justSend = YES;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        
+                        
+                        msg.type = BULK_SEGMENT_MULTI_SUIT;
+                        msg.length = 8;
+
+                   //    printf("%X %X\n",msg.data[1], msg.data[0 ]);
+                        
+                        int pixelUpdateIndexStart = -1;
+                        Pixel pixelSend;              
+                        for(int u=0;u<NUM_PIXELS;u++){
+                            if(pixelUpdateIndexStart == -1 && ![self pixel:clients[i].pixels[u] isEqualTo:clients[i].sendPixels[u]]){
+                                pixelUpdateIndexStart = u;
+                                pixelSend = clients[i].pixels[u];
+                            }
+                            else if(pixelUpdateIndexStart != -1 && ([self stripForPixel:u] != [self stripForPixel:pixelUpdateIndexStart] || ![self pixel:clients[i].pixels[u] isEqualTo:pixelSend] || u == NUM_PIXELS-1) ){
+                                //Send update
+                                msg.data[2] = [self stripForPixel:pixelUpdateIndexStart];
+                                msg.data[3] = pixelUpdateIndexStart - [self offsetStripPixel:pixelUpdateIndexStart];
+                                msg.data[4] = u-pixelUpdateIndexStart;
+                                msg.data[5] = clients[i].pixels[pixelUpdateIndexStart].r*100;
+                                msg.data[6] = clients[i].pixels[pixelUpdateIndexStart].g*100;
+                                msg.data[7] = clients[i].pixels[pixelUpdateIndexStart].b*100;
+                                
+                                for(int q=0;q<NUM_CLIENTS;q++){
+                                    if(similair[q]){
+                                        for(int j=pixelUpdateIndexStart;j<u;j++){
+                                            clients[q].sendPixels[j] = clients[q].pixels[j];
+                                            clients[q].sendPixels[j].justSend = YES;
+                                        }
+                                    }
+                                }
+                                
+                                //
+                                  //              NSLog(@"Send (%i - %i) %i: %i -> %i (%f, %f, %f)",i, [self stripForPixel:pixelUpdateIndexStart], pixelUpdateIndexStart, pixelUpdateIndexStart - [self offsetStripPixel:pixelUpdateIndexStart], u-pixelUpdateIndexStart, clients[i].pixels[pixelUpdateIndexStart].r,clients[i].pixels[pixelUpdateIndexStart].g, clients[i].pixels[pixelUpdateIndexStart].b);
+                                //  NSLog(@"Num pixels updated: %i",u-pixelUpdateIndexStart);
+                                [self serialBufferMessage:msg];
+#ifdef DEBUG_LOG
+                                NSLog(@"Send BULK_SEGMENT_MULTI_SUIT  Client: %i  Strip: %i offset: %i  num: %i",i,msg.data[2],msg.data[3],msg.data[4]);
+#endif
+                                numSend ++;
+                                
+                                pixelUpdateIndexStart = -1;
+                                u--;
+                            }
+                        }
+                    }
+                    
+                    
+                    
+                 //   NSLog(@"%i similair",numSimilair);
+
+                    
+                }
+
+            }
+            
+            /*
+            
+            
             int pixelUpdateIndexStart = -1;
             Pixel pixelSend;
             
@@ -155,13 +389,13 @@
                     u--;
                 }
             }
-            
+            */
         }
         pixelsUpdated = NO;
         [lock unlock];
         
         // NSLog(@"%f", );
-        if(anythingSend){// || sendTime == nil || [sendTime timeIntervalSinceNow] < -0.5) {
+        if(numSend){// || sendTime == nil || [sendTime timeIntervalSinceNow] < -0.5) {
             ArduinoLinkMessage msg;
             msg.type = CLOCK;
             msg.destination = 0;
@@ -170,7 +404,7 @@
             
             [self serialBufferMessage:msg];
             bytesSend += 5;
-            
+         //   NSLog(@"Send %i messages",numSend);
 //            
 //            int bitLength = bytesSend * 8;
 //            
@@ -179,9 +413,9 @@
 //            [NSThread sleepForTimeInterval:secDelay+0.015];
 
             //   [self setUpdateRate:secDelay];
-            
-            //        NSLog(@"Send");
-            
+            #ifdef DEBUG_LOG
+                    NSLog(@"Send clock");
+#endif
             [self writeBuffer];
             [NSThread sleepForTimeInterval:0.021];
 
@@ -238,28 +472,36 @@
 }
 
 -(void) writeBuffer{
+#ifdef DEBUG_LOG
     NSLog(@"Write %i bytes",outputBufferCounter);
+#endif
     if(outputBufferCounter > 0){
         [self writeBytes:outputBuffer length:outputBufferCounter];
+        
+        int bitLength = outputBufferCounter * 8;
+        
+        float packetPrSec = (float)BAUDRATE/bitLength;
+        float secDelay = 1.0/packetPrSec;
+        [NSThread sleepForTimeInterval:secDelay+0.01];
+       // printf("%f   ",secDelay+0.015);
+        
+        if(sendTime)
+            [sendTime release];
+        sendTime = [[NSDate date] retain];
+        
+        
         outputBufferCounter = 0;
+
+
     }
     
-    int bitLength = outputBufferCounter * 8;
-    
-    float packetPrSec = (float)BAUDRATE/bitLength;
-    float secDelay = 1.0/packetPrSec;
-    [NSThread sleepForTimeInterval:secDelay+0.01];
-    
-    if(sendTime)
-        [sendTime release];
-    sendTime = [[NSDate date] retain];
     
     
 }
 
 - (void) bufferBytes: (unsigned char * ) bytes length:(int)length {
     if(length+outputBufferCounter > 127){
-        // NSLog(@"Buffer overflow!");
+         NSLog(@"Buffer overflow!");
         [self writeBuffer];
         //        return;
     }
@@ -617,13 +859,13 @@
     unsigned char cmsg[msg.length + 6];
     cmsg[0] = '#';
     cmsg[1] = msg.type;
-    cmsg[2] = msg.destination + 0xF0; //0xF0 = MASTER
-    cmsg[3] = msg.length;
+//    cmsg[2] = msg.destination + 0xF0; //0xF0 = MASTER
+    cmsg[2] = msg.length;
     
     for(int i=0;i<msg.length;i++){
-        cmsg[i+4] = msg.data[i];
+        cmsg[i+3] = msg.data[i];
     }
-    [self bufferBytes:cmsg length:msg.length + 4];
+    [self bufferBytes:cmsg length:msg.length + 3];
 }
 
 

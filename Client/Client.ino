@@ -56,7 +56,7 @@ void setup() {
   pinMode(10, OUTPUT);  
   pinMode(9, OUTPUT);  
   pinMode(8, OUTPUT);  
-  
+
   masterTimeout = 1000;
   masterOnline = true;
 }
@@ -72,7 +72,7 @@ float voltage(){
 }
 
 void loop(){
-  digitalWrite(1, HIGH);
+  digitalWrite(12, HIGH);
   if(voltage() < 6.3){
     if(lowBatTimeout == -1){
       lowBatTimeout = millis()+1000;
@@ -105,25 +105,22 @@ void loop(){
         for (int u=0; u < strips[i].numPixels(); u++) {
           strips[i].setPixelColor(u, 0,0,0);
         }  
-        strips[i].setPixelColor(0, 1,0,0);
+        strips[i].setPixelColor(0, 0,0,0);
         strips[i].show();
       }
     }
   }
 
-  masterOnline = true;
-
 
   ArduinoLinkMessage * msg = parseArduinoMessage();
-  if(msg->complete && (msg->destination == clientId || msg->type == CLOCK || msg->type == ALIVE || msg->destination == 14)){
+  if(msg->complete){
     digitalWrite(9, HIGH);
-    
-    if(!masterOnline && msg->type == ALIVE){
-       for(int i=0;i<numStrips;i++){
+
+    if(!masterOnline){
+      for(int i=0;i<numStrips;i++){
         for (int u=0; u < strips[i].numPixels(); u++) {
           strips[i].setPixelColor(u, 0,0,0);
         }  
-        strips[i].setPixelColor(0, 1,0,0);
         strips[i].show();
       }
     }
@@ -159,20 +156,71 @@ void loop(){
       unsigned char offset = msg->data[0];
       unsigned char pixels = (msg->length - 1)/3;
       for (int i=0; i < pixels; i++) {
-        strips[0].setPixelColor(i+offset, msg->data[i*3+1], msg->data[i*3+2], msg->data[i*3+3
-          ]);
+        strips[0].setPixelColor(i+offset, msg->data[i*3+1], msg->data[i*3+2], msg->data[i*3+3]);
       }  
     }
 
 
     if(msg->type == BULK_VALUES){
-      digitalWrite(11, HIGH);
+
       unsigned char strip = msg->data[0];
       unsigned char offset = msg->data[1];
       unsigned char pixels = msg->data[2];
       for (int i=0; i < pixels; i++) {
         strips[strip].setPixelColor(i+offset, msg->data[3], msg->data[4], msg->data[5]);
       }  
+    }
+
+    if(msg->type == BULK_STRIP_MULTI_SUIT){
+      boolean destinationMatch;
+      if(clientId < 9){
+        destinationMatch = 0x01 & (msg->data[0] >> (clientId-1));
+      } 
+      else {
+        destinationMatch = 0x01 & (msg->data[1] >> (clientId-9));        
+      }
+      if(destinationMatch){
+        for(int i=0;i<numStrips;i++){
+          if(
+        }
+      }
+    }
+    if(msg->type == BULK_SEGMENT_MULTI_SUIT){
+
+      boolean destinationMatch;
+      if(clientId < 9){
+        destinationMatch = 0x01 & (msg->data[0] >> (clientId-1));
+      } 
+      else {
+        destinationMatch = 0x01 & (msg->data[1] >> (clientId-9));        
+      }
+      if(destinationMatch){
+        unsigned char strip = msg->data[2];
+        unsigned char offset = msg->data[3];
+        unsigned char pixels = msg->data[4];
+        for (int i=0; i < pixels; i++) {
+          strips[strip].setPixelColor(i+offset, msg->data[5], msg->data[6], msg->data[7]);
+        }  
+      }
+    }
+
+    if(msg->type ==  BULK_ALL_STRIPS){
+      digitalWrite(11, HIGH);
+      //       digitalWrite(11, HIGH);
+      boolean destinationMatch;
+      if(clientId < 9){
+        destinationMatch = 0x01 & (msg->data[0] >> (clientId-1));
+      } 
+      else {
+        destinationMatch = 0x01 & (msg->data[1] >> (clientId-9));        
+      }
+      if(destinationMatch){
+        for(int j=0;j<numStrips;j++){
+          for (int i=0; i < strips[j].numPixels(); i++) {
+            strips[j].setPixelColor(i, msg->data[2], msg->data[3], msg->data[4]);
+          }  
+        }
+      }
 
     }
 
@@ -186,6 +234,12 @@ void loop(){
   digitalWrite(12, LOW);
   digitalWrite(13, LOW);
 }
+
+
+
+
+
+
 
 
 

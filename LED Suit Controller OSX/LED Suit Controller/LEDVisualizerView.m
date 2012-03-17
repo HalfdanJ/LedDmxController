@@ -33,7 +33,6 @@
 	}
 	
     
-    
 	
 	return self;
 }
@@ -131,7 +130,8 @@
         strips[15].num = 16;
         
     }
-    
+    animationTimer=[ [ NSTimer scheduledTimerWithTimeInterval:0.05 target:self selector:@selector(animationTimerFired:) userInfo:nil repeats:YES ] retain ] ;
+
 }
 
 - (void) animationTimerFired: (NSTimer *) timer
@@ -150,7 +150,7 @@
 }
 
 -(void)drawRect:(NSRect)dirtyRect{
-    animationTimer=[ [ NSTimer scheduledTimerWithTimeInterval:0.017 target:self selector:@selector(animationTimerFired:) userInfo:nil repeats:YES ] retain ] ;
+
     
     
     glMatrixMode(GL_MODELVIEW);
@@ -188,7 +188,7 @@
             glBegin(GL_QUADS);
             
             float size = 0.012;
-            for(int u=0;u<strips[i].num;u++){
+           /* for(int u=0;u<strips[i].num;u++){
                 if(pixel < NUM_PIXELS){
                     glColor4f(client->sendPixels[pixel].r, client->sendPixels[pixel].g, client->sendPixels[pixel++].b, 1.0);
                     
@@ -211,7 +211,7 @@
                                strips[i].yStart + strips[i].yDir * scale * (u+0.5) + size);
                 }
             }
-            
+            */
             glEnd();
             
             
