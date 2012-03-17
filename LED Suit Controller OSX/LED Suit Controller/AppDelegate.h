@@ -31,6 +31,7 @@
     
     int values[513*12];
     BOOL artnetReceived;
+    BOOL universeReceived[8];
 }
 
 @property (assign) IBOutlet NSWindow *window;

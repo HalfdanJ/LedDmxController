@@ -29,7 +29,8 @@ enum ProtocolTypes {
     STATUS = 0x02,
     VALUES = 0x03,
     BULK_VALUES = 0x04,
-    CLOCK = 0x05
+    CLOCK = 0x05,
+    ALIVE = 0x06
 };
 
 #define multicastByte 14
@@ -48,6 +49,7 @@ typedef struct {
     float r;
     float g;
     float b;
+    BOOL justSend;
 } Pixel;
 
 typedef struct {
@@ -94,6 +96,10 @@ typedef struct {
     
     NSRecursiveLock * lock;
     BOOL xbeeConnected;
+    BOOL pixelsUpdated;
+    
+    unsigned char outputBuffer[127];
+    int outputBufferCounter;
   //  AMSerialPort *port;
 
 }
@@ -103,14 +109,17 @@ typedef struct {
 @property (readwrite) float test;
 @property (readwrite) NSRecursiveLock * lock;
 @property (assign) IBOutlet NSButton *TestPatternButton;
+@property (readwrite) BOOL pixelsUpdated;
 
 - (NSString *) openSerialPort: (NSString *)serialPortFile baud: (speed_t)baudRate;
 - (void) serialReadThread: (NSThread *) parentThread;
 - (void) serialUpdateThread: (NSThread *) parentThread;
 - (void) writeString: (NSString *) str;
 - (void) writeByte: (unsigned char) val;
+- (void) writeBuffer;
 - (void) writeBytes: (unsigned char * ) bytes length:(int)length;
--(void) serialWriteMessage:(ArduinoLinkMessage)msg;
+- (void) bufferBytes: (unsigned char * ) bytes length:(int)length;
+-(void) serialBufferMessage:(ArduinoLinkMessage)msg;
 
 - (void) receivedMessage:(ArduinoLinkMessage)msg;
 

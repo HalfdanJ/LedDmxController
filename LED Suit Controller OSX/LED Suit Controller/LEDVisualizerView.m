@@ -184,6 +184,39 @@
             glEnd();
         }
         Client * client = [xbee client:j];
+        for(int i=0;i<numStrips;i++){
+            glBegin(GL_QUADS);
+            
+            float size = 0.012;
+            for(int u=0;u<strips[i].num;u++){
+                if(pixel < NUM_PIXELS){
+                    glColor4f(client->sendPixels[pixel].r, client->sendPixels[pixel].g, client->sendPixels[pixel++].b, 1.0);
+                    
+                    if(client->sendPixels[pixel].justSend){
+                        client->sendPixels[pixel].justSend = NO;
+                        glColor4f(1.0,0,0, 0.1);
+                    }
+                    // glColor4f(client->pixels[pixel].b, client->pixels[pixel].r, client->pixels[pixel++].g, 1.0);
+                    
+                    glVertex2d(strips[i].xStart + strips[i].xDir * scale * (u+0.5) - size , 
+                               strips[i].yStart + strips[i].yDir * scale * (u+0.5) - size);
+                    
+                    glVertex2d(strips[i].xStart + strips[i].xDir * scale * (u+0.5) + size , 
+                               strips[i].yStart + strips[i].yDir * scale * (u+0.5) - size);
+                    
+                    glVertex2d(strips[i].xStart + strips[i].xDir * scale * (u+0.5) + size , 
+                               strips[i].yStart + strips[i].yDir * scale * (u+0.5) + size);
+                    
+                    glVertex2d(strips[i].xStart + strips[i].xDir * scale * (u+0.5) - size , 
+                               strips[i].yStart + strips[i].yDir * scale * (u+0.5) + size);
+                }
+            }
+            
+            glEnd();
+            
+            
+        }
+        pixel = 0;
 
         for(int i=0;i<numStrips;i++){            
             glBegin(GL_QUADS);
@@ -191,7 +224,7 @@
             for(int u=0;u<strips[i].num;u++){
                 if(pixel < NUM_PIXELS){
                   //  glColor4f(client->sendPixels[pixel].b, client->sendPixels[pixel].r, client->sendPixels[pixel++].g, 1.0);
-                      glColor4f(client->pixels[pixel].b, client->pixels[pixel].r, client->pixels[pixel++].g, 1.0);
+                      glColor4f(client->pixels[pixel].r, client->pixels[pixel].g, client->pixels[pixel++].b, 1.0);
                     
                     glVertex2d(strips[i].xStart + strips[i].xDir * scale * (u+0.5) - size , 
                                strips[i].yStart + strips[i].yDir * scale * (u+0.5) - size);
@@ -209,35 +242,7 @@
             glEnd();
 
         }
-        pixel = 0;
-       /* for(int i=0;i<numStrips;i++){
-            glBegin(GL_QUADS);
-
-            float size = 0.012;
-            for(int u=0;u<strips[i].num;u++){
-                if(pixel < NUM_PIXELS){
-                      glColor4f(client->sendPixels[pixel].b, client->sendPixels[pixel].r, client->sendPixels[pixel++].g, 1.0);
-                   // glColor4f(client->pixels[pixel].b, client->pixels[pixel].r, client->pixels[pixel++].g, 1.0);
-                    
-                    glVertex2d(strips[i].xStart + strips[i].xDir * scale * (u+0.5) - size , 
-                               strips[i].yStart + strips[i].yDir * scale * (u+0.5) - size);
-                    
-                    glVertex2d(strips[i].xStart + strips[i].xDir * scale * (u+0.5) + size , 
-                               strips[i].yStart + strips[i].yDir * scale * (u+0.5) - size);
-                    
-                    glVertex2d(strips[i].xStart + strips[i].xDir * scale * (u+0.5) + size , 
-                               strips[i].yStart + strips[i].yDir * scale * (u+0.5) + size);
-                    
-                    glVertex2d(strips[i].xStart + strips[i].xDir * scale * (u+0.5) - size , 
-                               strips[i].yStart + strips[i].yDir * scale * (u+0.5) + size);
-                }
-            }
-
-            glEnd();
-            
-            
-        }*/
-        if(j%2 == 0){
+                if(j%2 == 0){
             glTranslated(0, -1, 0);
         } else {
             glTranslated(0, 1, 0);

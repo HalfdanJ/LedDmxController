@@ -14,7 +14,7 @@
 @implementation XbeeController
 @synthesize TestPatternButton;
 //@synthesize port;
-@synthesize updateRate, test, lock;
+@synthesize updateRate, test, lock, pixelsUpdated;
 
 -(void)awakeFromNib{
     // we don't have a serial port open yet
@@ -39,10 +39,11 @@
         [appDelegate logInfo:@"Serial successfully opened"];
         xbeeConnected = YES;
         
-        [self performSelectorInBackground:@selector(serialReadThread:) withObject:[NSThread currentThread]];
+     //   [self performSelectorInBackground:@selector(serialReadThread:) withObject:[NSThread currentThread]];
         [self performSelectorInBackground:@selector(serialUpdateThread:) withObject:[NSThread currentThread]];
         
     }
+    pixelsUpdated = YES;
 }
 
 
@@ -80,118 +81,199 @@
 }
 
 -(void) sendValues {
-[lock lock];
-    BOOL anythingSend = false;
-    int bytesSend = 0;
-    
-    //    NSLog(@"%f",clients[0].pixels[21].r);
-    
-    for(int i=0;i< NUM_CLIENTS;i++){
-        int pixelUpdateIndexStart = -1;
-        Pixel pixelSend;
+    if(pixelsUpdated){
+        [lock lock];
+        BOOL anythingSend = false;
+        int bytesSend = 0;
         
+        //    NSLog(@"%f",clients[0].pixels[21].r);
         
-        
-        for(int u=0;u<NUM_PIXELS;u++){
-            if(pixelUpdateIndexStart == -1 && ![self pixel:clients[i].pixels[u] isEqualTo:clients[i].sendPixels[u]]){
-                pixelUpdateIndexStart = u;
-                pixelSend = clients[i].pixels[u];
-            }
-            else if(pixelUpdateIndexStart != -1 && ([self stripForPixel:u] != [self stripForPixel:pixelUpdateIndexStart] || ![self pixel:clients[i].pixels[u] isEqualTo:pixelSend] || u == NUM_PIXELS-1) ){
-                
-                //Find ud af om det kan multicastes
-                bool multicast = YES;
-                for(int clientPixel=pixelUpdateIndexStart;clientPixel<u;clientPixel++){
-                    Pixel p = clients[i].pixels[clientPixel];
-                    for(int client=0;client<NUM_CLIENTS;client++){
-                        if(![self pixel:clients[client].pixels[clientPixel]  isEqualTo:p]){
-                            multicast = NO;
-                            break;
-                        }
-                    }
+        for(int i=0;i< NUM_CLIENTS;i++){
+            int pixelUpdateIndexStart = -1;
+            Pixel pixelSend;
+            
+            
+            
+            for(int u=0;u<NUM_PIXELS;u++){
+                if(pixelUpdateIndexStart == -1 && ![self pixel:clients[i].pixels[u] isEqualTo:clients[i].sendPixels[u]]){
+                    pixelUpdateIndexStart = u;
+                    pixelSend = clients[i].pixels[u];
                 }
-                
-                //Send update
-                ArduinoLinkMessage msg;
-                msg.type = BULK_VALUES;
-                msg.destination = i+1;
-                if(multicast){
-                    msg.destination = multicastByte;                    
-                }
-                msg.moreComing = NO;
-                msg.length = 6;
-                msg.data[0] = [self stripForPixel:pixelUpdateIndexStart];
-                msg.data[1] = pixelUpdateIndexStart - [self offsetStripPixel:pixelUpdateIndexStart];
-                msg.data[2] = u-pixelUpdateIndexStart;
-                msg.data[3] = clients[i].pixels[pixelUpdateIndexStart].r*100;
-                msg.data[4] = clients[i].pixels[pixelUpdateIndexStart].g*100;
-                msg.data[5] = clients[i].pixels[pixelUpdateIndexStart].b*100;
-                
-                //                NSLog(@"Send (%i - %i) %i: %i -> %i (%f, %f, %f)",i, [self stripForPixel:pixelUpdateIndexStart], pixelUpdateIndexStart, pixelUpdateIndexStart - [self offsetStripPixel:pixelUpdateIndexStart], u-pixelUpdateIndexStart, clients[i].pixels[pixelUpdateIndexStart].r,clients[i].pixels[pixelUpdateIndexStart].g, clients[i].pixels[pixelUpdateIndexStart].b);
-                
-                [self serialWriteMessage:msg];
-                bytesSend += 5+6;
-                
-                for(int j=pixelUpdateIndexStart;j<u;j++){
-                    clients[i].sendPixels[j].r = clients[i].pixels[j].r;
-                    clients[i].sendPixels[j].g = clients[i].pixels[j].g;
-                    clients[i].sendPixels[j].b = clients[i].pixels[j].b;  
+                else if(pixelUpdateIndexStart != -1 && ([self stripForPixel:u] != [self stripForPixel:pixelUpdateIndexStart] || ![self pixel:clients[i].pixels[u] isEqualTo:pixelSend] || u == NUM_PIXELS-1) ){
                     
-                    if(multicast){
+                    //Find ud af om det kan multicastes
+                    bool multicast = YES;
+                    for(int clientPixel=pixelUpdateIndexStart;clientPixel<u;clientPixel++){
+                        Pixel p = clients[i].pixels[clientPixel];
                         for(int client=0;client<NUM_CLIENTS;client++){
-                            clients[client].sendPixels[j].r = clients[client].pixels[j].r;
-                            clients[client].sendPixels[j].g = clients[client].pixels[j].g;
-                            clients[client].sendPixels[j].b = clients[client].pixels[j].b;  
+                            if(![self pixel:clients[client].pixels[clientPixel]  isEqualTo:p]){
+                                multicast = NO;
+                                break;
+                            }
                         }
                     }
+                    
+                    //Send update
+                    ArduinoLinkMessage msg;
+                    msg.type = BULK_VALUES;
+                    msg.destination = i+1;
+                    if(multicast){
+                        msg.destination = multicastByte;                    
+                    }
+                    msg.moreComing = NO;
+                    msg.length = 6;
+                    msg.data[0] = [self stripForPixel:pixelUpdateIndexStart];
+                    msg.data[1] = pixelUpdateIndexStart - [self offsetStripPixel:pixelUpdateIndexStart];
+                    msg.data[2] = u-pixelUpdateIndexStart;
+                    msg.data[3] = clients[i].pixels[pixelUpdateIndexStart].r*100;
+                    msg.data[4] = clients[i].pixels[pixelUpdateIndexStart].g*100;
+                    msg.data[5] = clients[i].pixels[pixelUpdateIndexStart].b*100;
+                    
+                    //                NSLog(@"Send (%i - %i) %i: %i -> %i (%f, %f, %f)",i, [self stripForPixel:pixelUpdateIndexStart], pixelUpdateIndexStart, pixelUpdateIndexStart - [self offsetStripPixel:pixelUpdateIndexStart], u-pixelUpdateIndexStart, clients[i].pixels[pixelUpdateIndexStart].r,clients[i].pixels[pixelUpdateIndexStart].g, clients[i].pixels[pixelUpdateIndexStart].b);
+                  //  NSLog(@"Num pixels updated: %i",u-pixelUpdateIndexStart);
+                    [self serialBufferMessage:msg];
+                    bytesSend += 5+6;
+                    
+                    for(int j=pixelUpdateIndexStart;j<u;j++){
+                        clients[i].sendPixels[j].r = clients[i].pixels[j].r;
+                        clients[i].sendPixels[j].g = clients[i].pixels[j].g;
+                        clients[i].sendPixels[j].b = clients[i].pixels[j].b;  
+                        clients[i].sendPixels[j].justSend = YES;
+                        
+                        if(multicast){
+                            for(int client=0;client<NUM_CLIENTS;client++){
+                                clients[client].sendPixels[j].justSend = YES;
+                                clients[client].sendPixels[j].r = clients[client].pixels[j].r;
+                                clients[client].sendPixels[j].g = clients[client].pixels[j].g;
+                                clients[client].sendPixels[j].b = clients[client].pixels[j].b;  
+                            }
+                        }
+                    }
+                    anythingSend = true;
+                    
+                    pixelUpdateIndexStart = -1;
+                    u--;
                 }
-                anythingSend = true;
-                
-                pixelUpdateIndexStart = -1;
-                u--;
             }
+            
         }
+        pixelsUpdated = NO;
+        [lock unlock];
         
-    }
-    [lock unlock];
-    
-    // NSLog(@"%f", );
-    if(anythingSend || sendTime == nil || [sendTime timeIntervalSinceNow] < -0.5) {
+        // NSLog(@"%f", );
+        if(anythingSend){// || sendTime == nil || [sendTime timeIntervalSinceNow] < -0.5) {
+            ArduinoLinkMessage msg;
+            msg.type = CLOCK;
+            msg.destination = 0;
+            msg.moreComing = NO;
+            msg.length = 0;
+            
+            [self serialBufferMessage:msg];
+            bytesSend += 5;
+            
+//            
+//            int bitLength = bytesSend * 8;
+//            
+//            float packetPrSec = (float)BAUDRATE/bitLength;
+//            float secDelay = 1.0/packetPrSec;
+//            [NSThread sleepForTimeInterval:secDelay+0.015];
+
+            //   [self setUpdateRate:secDelay];
+            
+            //        NSLog(@"Send");
+            
+            [self writeBuffer];
+            [NSThread sleepForTimeInterval:0.021];
+
+            
+                      
+            //    NSLog(@"%i bytes",bytesSend);
+            
+            //                [NSThread sleepForTimeInterval:0.05];
+            
+            //  [nextValueSendTime release];
+            //  nextValueSendTime = [[NSDate dateWithTimeIntervalSinceNow:updateRate+0.001] retain];
+            
+            
+        }
+        }
+    if(sendTime == nil || [sendTime timeIntervalSinceNow] < -0.5){
         ArduinoLinkMessage msg;
-        msg.type = CLOCK;
+        msg.type = ALIVE;
         msg.destination = 0;
         msg.moreComing = NO;
         msg.length = 0;
-        
-        [self serialWriteMessage:msg];
-        bytesSend += 5;
-        
-        
-        int bitLength = bytesSend * 8;
-        
-        float packetPrSec = (float)BAUDRATE/bitLength;
-        float secDelay = 1.0/packetPrSec;
-        //   [self setUpdateRate:secDelay];
-        
-        //        NSLog(@"Send");
-        
-        [NSThread sleepForTimeInterval:secDelay+0.015];
-        
-        if(sendTime)
-            [sendTime release];
-        sendTime = [[NSDate date] retain];
-        
-        //    NSLog(@"%i bytes",bytesSend);
-        
-        //                [NSThread sleepForTimeInterval:0.05];
-        
-        //  [nextValueSendTime release];
-        //  nextValueSendTime = [[NSDate dateWithTimeIntervalSinceNow:updateRate+0.001] retain];
-        
-        
+        [self serialBufferMessage:msg];
+        [self writeBuffer];
+    }
+
+}
+
+
+
+// send a string to the serial port
+- (void) writeString: (NSString *) str {
+    if(serialFileDescriptor!=-1) {
+        write(serialFileDescriptor, [str cStringUsingEncoding:NSUTF8StringEncoding], [str length]);
+    } else {
+        // make sure the user knows they should select a serial port
+        //	[self appendToIncomingText:@"\n ERROR:  Select a Serial Port from the pull-down menu\n"];
+    }
+}
+
+// send a byte to the serial port
+- (void) writeByte: (unsigned char) val {
+    if(serialFileDescriptor!=-1) {
+        unsigned char tmpByte[1];
+        tmpByte[0] = val;
+        int numWritten = write(serialFileDescriptor, tmpByte, 1);
+    }
+}
+
+// send a byte to the serial port
+- (void) writeBytes: (unsigned char * ) bytes length:(int)length {
+    if(serialFileDescriptor!=-1) {
+        int numWritten = write(serialFileDescriptor, bytes, length);
+    }
+}
+
+-(void) writeBuffer{
+    NSLog(@"Write %i bytes",outputBufferCounter);
+    if(outputBufferCounter > 0){
+        [self writeBytes:outputBuffer length:outputBufferCounter];
+        outputBufferCounter = 0;
     }
     
+    int bitLength = outputBufferCounter * 8;
+    
+    float packetPrSec = (float)BAUDRATE/bitLength;
+    float secDelay = 1.0/packetPrSec;
+    [NSThread sleepForTimeInterval:secDelay+0.01];
+    
+    if(sendTime)
+        [sendTime release];
+    sendTime = [[NSDate date] retain];
+    
+    
 }
+
+- (void) bufferBytes: (unsigned char * ) bytes length:(int)length {
+    if(length+outputBufferCounter > 127){
+        // NSLog(@"Buffer overflow!");
+        [self writeBuffer];
+        //        return;
+    }
+    memcpy(outputBuffer+outputBufferCounter, bytes, length);
+    outputBufferCounter += length;
+}
+
+
+
+
+
+
+
+
 
 -(IBAction) statusUpdate:(id)sender{
     @synchronized(self){
@@ -324,6 +406,7 @@
             if(demoMode >= 21){
                 demoMode = 0;
             }
+            pixelsUpdated = YES;
         }
         
         //        for(int i=0;i<NUM_CLIENTS;i++){
@@ -446,25 +529,6 @@
     }
 }
 
--(void) serialWriteMessage:(ArduinoLinkMessage)msg{
-    unsigned char cmsg[msg.length + 6];
-    cmsg[0] = '#';
-    cmsg[1] = msg.type + msg.moreComing * 0x10;
-    cmsg[2] = msg.destination + 0xF0; //0xF0 = MASTER
-    cmsg[3] = msg.length;
-    
-    for(int i=0;i<msg.length;i++){
-        cmsg[i+4] = msg.data[i];
-    }
-    [self writeBytes:cmsg length:msg.length + 4];
-    
-    
-    
-    
-    
-    
-}
-
 
 // This selector will be called as another thread
 - (void)serialReadThread: (NSThread *) parentThread {
@@ -549,40 +613,18 @@
 
 
 
-// send a string to the serial port
-- (void) writeString: (NSString *) str {
-    if(serialFileDescriptor!=-1) {
-        write(serialFileDescriptor, [str cStringUsingEncoding:NSUTF8StringEncoding], [str length]);
-    } else {
-        // make sure the user knows they should select a serial port
-        //	[self appendToIncomingText:@"\n ERROR:  Select a Serial Port from the pull-down menu\n"];
+-(void) serialBufferMessage:(ArduinoLinkMessage)msg{
+    unsigned char cmsg[msg.length + 6];
+    cmsg[0] = '#';
+    cmsg[1] = msg.type;
+    cmsg[2] = msg.destination + 0xF0; //0xF0 = MASTER
+    cmsg[3] = msg.length;
+    
+    for(int i=0;i<msg.length;i++){
+        cmsg[i+4] = msg.data[i];
     }
+    [self bufferBytes:cmsg length:msg.length + 4];
 }
-
-// send a byte to the serial port
-- (void) writeByte: (unsigned char) val {
-    if(serialFileDescriptor!=-1) {
-        unsigned char tmpByte[1];
-        tmpByte[0] = val;
-        int numWritten = write(serialFileDescriptor, tmpByte, 1);
-    }
-}
-
-// send a byte to the serial port
-- (void) writeBytes: (unsigned char * ) bytes length:(int)length {
-    if(serialFileDescriptor!=-1) {
-        int numWritten = write(serialFileDescriptor, bytes, length);
-        // printf("\n");
-        for(int i=0;i<length;i++){
-            //   printf("%u - ",bytes[i]);
-        }
-        // printf("\n");
-    }
-}
-
-
-
-
 
 
 - (NSString *) openSerialPort: (NSString *)serialPortFile baud: (speed_t)baudRate {

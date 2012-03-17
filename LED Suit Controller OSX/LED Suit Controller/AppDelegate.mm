@@ -33,6 +33,10 @@
                 values[i] = 0;
             }
         }
+        
+        for(int i=0;i<8;i++){
+            universeReceived[i] = NO;
+        }
     }
     return self;
 }
@@ -204,7 +208,7 @@ withFilterContext:(id)filterContext
             // NSLog(@"String: %@",string);
             //   NSLog(@"%i %i",((unsigned char*)[data bytes])[14], ((unsigned char*)[data bytes])[15]);
             int universe = ((unsigned char*)[data bytes])[14]+1;
-            
+            universeReceived[universe-1] = YES;
             for(int i=0;i<512;i++){
                 values[i+2+510*(universe-1)] = ((unsigned char*)[data bytes])[18+i];
             }
@@ -222,80 +226,100 @@ withFilterContext:(id)filterContext
                 //                int adr = 31;          
                 int adr = 31;
                 for(int i=0;i<24;i++){ //right breast
-                    [xbee client:j]->pixels[i].b = values[base+adr++]/255.0;
                     [xbee client:j]->pixels[i].r = values[base+adr++]/255.0;
-                    [xbee client:j]->pixels[i].g = values[base+adr++]/255.0; 
+                    [xbee client:j]->pixels[i].g = values[base+adr++]/255.0;
+                    [xbee client:j]->pixels[i].b = values[base+adr++]/255.0; 
                 }
                 
                 adr = 109; //left breast
                 for(int i=0;i<24;i++){
-                    [xbee client:j]->pixels[i+38].b = values[base+adr++]/255.0;
                     [xbee client:j]->pixels[i+38].r = values[base+adr++]/255.0;
-                    [xbee client:j]->pixels[i+38].g = values[base+adr++]/255.0; 
+                    [xbee client:j]->pixels[i+38].g = values[base+adr++]/255.0;
+                    [xbee client:j]->pixels[i+38].b = values[base+adr++]/255.0; 
                 }
                 
                 for(int i=0;i<8;i++){ //right lower arm
-                    [xbee client:j]->pixels[i+24].b = values[base+13]/255.0;
-                    [xbee client:j]->pixels[i+24].r = values[base+14]/255.0;
-                    [xbee client:j]->pixels[i+24].g = values[base+15]/255.0; 
+                    [xbee client:j]->pixels[i+24].r = values[base+13]/255.0;
+                    [xbee client:j]->pixels[i+24].g = values[base+14]/255.0;
+                    [xbee client:j]->pixels[i+24].b = values[base+15]/255.0; 
                 }
                 for(int i=0;i<6;i++){ //right ydderst arm
-                    [xbee client:j]->pixels[i+32].b = values[base+16]/255.0;
-                    [xbee client:j]->pixels[i+32].r = values[base+17]/255.0;
-                    [xbee client:j]->pixels[i+32].g = values[base+18]/255.0; 
+                    [xbee client:j]->pixels[i+32].r = values[base+16]/255.0;
+                    [xbee client:j]->pixels[i+32].g = values[base+17]/255.0;
+                    [xbee client:j]->pixels[i+32].b = values[base+18]/255.0; 
                 }
                 
                 for(int i=0;i<8;i++){ //left lower arm
-                    [xbee client:j]->pixels[i+62].b = values[base+19]/255.0;
-                    [xbee client:j]->pixels[i+62].r = values[base+20]/255.0;
-                    [xbee client:j]->pixels[i+62].g = values[base+21]/255.0; 
+                    [xbee client:j]->pixels[i+62].r = values[base+19]/255.0;
+                    [xbee client:j]->pixels[i+62].g = values[base+20]/255.0;
+                    [xbee client:j]->pixels[i+62].b = values[base+21]/255.0; 
                 }
                 for(int i=0;i<6;i++){ //left ydderst arm
-                    [xbee client:j]->pixels[i+70].b = values[base+22]/255.0;
-                    [xbee client:j]->pixels[i+70].r = values[base+23]/255.0;
-                    [xbee client:j]->pixels[i+70].g = values[base+24]/255.0; 
+                    [xbee client:j]->pixels[i+70].r = values[base+22]/255.0;
+                    [xbee client:j]->pixels[i+70].g = values[base+23]/255.0;
+                    [xbee client:j]->pixels[i+70].b = values[base+24]/255.0; 
                 }
                 
                 
                 for(int i=0;i<16;i++){ //right upper leg
-                    [xbee client:j]->pixels[i+76].b = values[base+1]/255.0;
-                    [xbee client:j]->pixels[i+76].r = values[base+2]/255.0;
-                    [xbee client:j]->pixels[i+76].g = values[base+3]/255.0; 
+                    [xbee client:j]->pixels[i+76].r = values[base+1]/255.0;
+                    [xbee client:j]->pixels[i+76].g = values[base+2]/255.0;
+                    [xbee client:j]->pixels[i+76].b = values[base+3]/255.0; 
                 }
                 for(int i=0;i<10;i++){ //right lower leg
-                    [xbee client:j]->pixels[i+16+76].b = values[base+4]/255.0;
-                    [xbee client:j]->pixels[i+16+76].r = values[base+5]/255.0;
-                    [xbee client:j]->pixels[i+16+76].g = values[base+6]/255.0; 
+                    [xbee client:j]->pixels[i+16+76].r = values[base+4]/255.0;
+                    [xbee client:j]->pixels[i+16+76].g = values[base+5]/255.0;
+                    [xbee client:j]->pixels[i+16+76].b = values[base+6]/255.0; 
                 }
                 for(int i=0;i<16;i++){ //left upper leg
-                    [xbee client:j]->pixels[i+26+76].b = values[base+7]/255.0;
-                    [xbee client:j]->pixels[i+26+76].r = values[base+8]/255.0;
-                    [xbee client:j]->pixels[i+26+76].g = values[base+9]/255.0; 
+                    [xbee client:j]->pixels[i+26+76].r = values[base+7]/255.0;
+                    [xbee client:j]->pixels[i+26+76].g = values[base+8]/255.0;
+                    [xbee client:j]->pixels[i+26+76].b = values[base+9]/255.0; 
                 }
                 for(int i=0;i<10;i++){ //left lower leg
-                    [xbee client:j]->pixels[i+34+76+8].b = values[base+10]/255.0;
-                    [xbee client:j]->pixels[i+34+76+8].r = values[base+11]/255.0;
-                    [xbee client:j]->pixels[i+34+76+8].g = values[base+12]/255.0; 
+                    [xbee client:j]->pixels[i+34+76+8].r = values[base+10]/255.0;
+                    [xbee client:j]->pixels[i+34+76+8].g = values[base+11]/255.0;
+                    [xbee client:j]->pixels[i+34+76+8].b = values[base+12]/255.0; 
                 }
                 
                 
                 for(int i=0;i<14;i++){ //neck lower
-                    [xbee client:j]->pixels[i+0+76+44+8].b = values[base+25]/255.0;
-                    [xbee client:j]->pixels[i+0+76+44+8].r = values[base+26]/255.0;
-                    [xbee client:j]->pixels[i+0+76+44+8].g = values[base+27]/255.0; 
+                    [xbee client:j]->pixels[i+0+76+44+8].r = values[base+25]/255.0;
+                    [xbee client:j]->pixels[i+0+76+44+8].g = values[base+26]/255.0;
+                    [xbee client:j]->pixels[i+0+76+44+8].b = values[base+27]/255.0; 
                 }
                 for(int i=0;i<16;i++){ //neck lower
-                    [xbee client:j]->pixels[i+14+76+44+8].b = values[base+28]/255.0;
-                    [xbee client:j]->pixels[i+14+76+44+8].r = values[base+29]/255.0;
-                    [xbee client:j]->pixels[i+14+76+44+8].g = values[base+30]/255.0; 
+                    [xbee client:j]->pixels[i+14+76+44+8].r = values[base+28]/255.0;
+                    [xbee client:j]->pixels[i+14+76+44+8].g = values[base+29]/255.0;
+                    [xbee client:j]->pixels[i+14+76+44+8].b = values[base+30]/255.0; 
                 }
                 
                 
                 base += 62*3;
                 
-                
+//
             }
+         //         NSLog(@"Universe %i",universe);           
+            /*
+            if(universe == 5){
+            BOOL update = YES;
+            for(int i=0;i<5;i++){
+                if(!universeReceived[i])
+                    update = NO;
+
+            }
+            if(update){
+                NSLog(@"Update");
+                [xbee setPixelsUpdated:YES];
+                for(int i=0;i<8;i++){
+                    universeReceived[i] = NO;
+                }
+            }
+            }
+              */
+            [xbee setPixelsUpdated:YES];
             [[xbee lock] unlock];
+            
             //  }
             
             

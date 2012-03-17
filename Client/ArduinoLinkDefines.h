@@ -28,7 +28,8 @@ enum ProtocolTypes {
   STATUS = 0x02,
   VALUES = 0x03,
   BULK_VALUES = 0x04,
-  CLOCK = 0x05
+  CLOCK = 0x05,
+  ALIVE = 0x06
 };
 
 
@@ -57,6 +58,7 @@ ArduinoLinkMessage * parseArduinoMessage(){
 
   while(Serial.available()){
     unsigned char c = Serial.read();
+        digitalWrite(8, HIGH);
                          //   digitalWrite(13, HIGH);
     if(incommingPos == 0){
       //      Serial.println("START");

@@ -2,7 +2,7 @@
 #include "SPI.h"
 #include "ArduinoLinkDefines.h"
 
-int clientId = 3;
+int clientId = 8;
 
 int dataPin = 3;   
 int clockPin = 2; 
@@ -51,6 +51,14 @@ void setup() {
 
   pinMode(13, OUTPUT);  
 
+  pinMode(12, OUTPUT);  
+  pinMode(11, OUTPUT);  
+  pinMode(10, OUTPUT);  
+  pinMode(9, OUTPUT);  
+  pinMode(8, OUTPUT);  
+  
+  masterTimeout = 1000;
+  masterOnline = true;
 }
 
 
@@ -64,6 +72,7 @@ float voltage(){
 }
 
 void loop(){
+  digitalWrite(1, HIGH);
   if(voltage() < 6.3){
     if(lowBatTimeout == -1){
       lowBatTimeout = millis()+1000;
@@ -83,7 +92,7 @@ void loop(){
   } 
   else {
     lowBatTimeout = -1;
-   // lowVoltage = false;
+    // lowVoltage = false;
   }
 
 
@@ -92,11 +101,12 @@ void loop(){
     if(masterTimeout < millis()){
       masterTimeout = 0; 
       masterOnline = false;
-      for(int u=0;u<numStrips;u++){
-        for (int i=0; i < strips[u].numPixels(); i++) {
-          strips[u].setPixelColor(i, 1,0,0);
+      for(int i=0;i<numStrips;i++){
+        for (int u=0; u < strips[i].numPixels(); u++) {
+          strips[i].setPixelColor(u, 0,0,0);
         }  
-        strips[u].show();
+        strips[i].setPixelColor(0, 1,0,0);
+        strips[i].show();
       }
     }
   }
@@ -105,13 +115,24 @@ void loop(){
 
 
   ArduinoLinkMessage * msg = parseArduinoMessage();
-  if(msg->complete && (msg->destination == clientId || msg->type == CLOCK || msg->destination == 14)){
+  if(msg->complete && (msg->destination == clientId || msg->type == CLOCK || msg->type == ALIVE || msg->destination == 14)){
+    digitalWrite(9, HIGH);
+    
+    if(!masterOnline && msg->type == ALIVE){
+       for(int i=0;i<numStrips;i++){
+        for (int u=0; u < strips[i].numPixels(); u++) {
+          strips[i].setPixelColor(u, 0,0,0);
+        }  
+        strips[i].setPixelColor(0, 1,0,0);
+        strips[i].show();
+      }
+    }
 
-
-    masterTimeout = millis() + 1000;
+    masterTimeout = millis() + 3000;
     masterOnline = true;
 
     if(msg->type == CLOCK && !lowVoltage){
+      digitalWrite(10, HIGH);
       for(int i=0;i<numStrips;i++){
         strips[i].show();   // write all the pixels out
       }
@@ -145,6 +166,7 @@ void loop(){
 
 
     if(msg->type == BULK_VALUES){
+      digitalWrite(11, HIGH);
       unsigned char strip = msg->data[0];
       unsigned char offset = msg->data[1];
       unsigned char pixels = msg->data[2];
@@ -157,8 +179,16 @@ void loop(){
 
   }
 
+  digitalWrite(8, LOW);
+  digitalWrite(9, LOW);
+  digitalWrite(10, LOW);
+  digitalWrite(11, LOW);
+  digitalWrite(12, LOW);
   digitalWrite(13, LOW);
 }
+
+
+
 
 
 
