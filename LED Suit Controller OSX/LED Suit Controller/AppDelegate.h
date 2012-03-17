@@ -10,11 +10,15 @@
 #import "GCDAsyncUdpSocket.h"
 
 #define FORMAT(format, ...) [NSString stringWithFormat:(format), ##__VA_ARGS__]
+/*#define PATCH(UNIVERSE,PIXEL,ADR, CLIENT) ([xbee client:CLIENT]->pixels[PIXEL].r = values[ADR]/255.0; [xbee client:CLIENT]->pixels[PIXEL].g = values[ADR+1]/255.0; [xbee client:CLIENT]->pixels[PIXEL].b = values[ADR+2]/255.0);
+*/
+
+@class XbeeController;
 
 @interface AppDelegate : NSObject <NSApplicationDelegate>{
     IBOutlet NSWindow *window;
    IBOutlet NSTextView *logView;
-
+    IBOutlet XbeeController * xbee;
   //  ArtnetController * artnetController;
     
     GCDAsyncUdpSocket *udpSocket;
@@ -24,11 +28,15 @@
     
     float ledsTest[32];
     long long count;
+    
+    int values[513*12];
+    BOOL artnetReceived;
 }
 
 @property (assign) IBOutlet NSWindow *window;
 @property (retain) IBOutlet NSTextView *logView;
 @property (readwrite, retain) NSMutableArray * clientStates;
+@property (assign) IBOutlet NSButton *testPatternButton;
 
 -(IBAction)sendTestValue:(id)sender;
 - (void)logError:(NSString *)msg;

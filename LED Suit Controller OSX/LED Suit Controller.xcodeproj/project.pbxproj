@@ -22,6 +22,9 @@
 		DD37E2C414F6CB880024AD53 /* DDLog.m in Sources */ = {isa = PBXBuildFile; fileRef = DD37E2BE14F6CB880024AD53 /* DDLog.m */; };
 		DD37E2C514F6CB880024AD53 /* DDTTYLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = DD37E2C014F6CB880024AD53 /* DDTTYLogger.m */; };
 		DD37E2C714F6CE470024AD53 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD37E2C614F6CE470024AD53 /* Security.framework */; };
+		DD4D12A715067A4B003EE179 /* LEDVisualizerView.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4D12A615067A4B003EE179 /* LEDVisualizerView.m */; };
+		DD4D12AA15067A70003EE179 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD4D12A915067A70003EE179 /* OpenGL.framework */; };
+		DD74DF52150E146200DB307B /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD74DF51150E146200DB307B /* GLUT.framework */; };
 		DDAEB28F14FA6C3E0099768F /* XbeeController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAEB28E14FA6C3E0099768F /* XbeeController.m */; };
 		DDAEB29814FA6DC40099768F /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDAEB29714FA6DC40099768F /* IOKit.framework */; };
 		DDAEB2B014FA747E0099768F /* AMSerialPort.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAEB2A514FA747E0099768F /* AMSerialPort.m */; };
@@ -62,6 +65,10 @@
 		DD37E2BF14F6CB880024AD53 /* DDTTYLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDTTYLogger.h; sourceTree = "<group>"; };
 		DD37E2C014F6CB880024AD53 /* DDTTYLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDTTYLogger.m; sourceTree = "<group>"; };
 		DD37E2C614F6CE470024AD53 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		DD4D12A515067A4B003EE179 /* LEDVisualizerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEDVisualizerView.h; sourceTree = "<group>"; };
+		DD4D12A615067A4B003EE179 /* LEDVisualizerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEDVisualizerView.m; sourceTree = "<group>"; };
+		DD4D12A915067A70003EE179 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		DD74DF51150E146200DB307B /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
 		DD8CDECF14F2F1A100988BB3 /* libola.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libola.dylib; path = usr/local/lib/libola.dylib; sourceTree = SDKROOT; };
 		DD8CDED114F2F1AA00988BB3 /* libprotobuf.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libprotobuf.dylib; path = usr/local/lib/libprotobuf.dylib; sourceTree = SDKROOT; };
 		DD8CDED314F2F1B200988BB3 /* libolacommon.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libolacommon.dylib; path = usr/local/lib/libolacommon.dylib; sourceTree = SDKROOT; };
@@ -89,6 +96,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DD74DF52150E146200DB307B /* GLUT.framework in Frameworks */,
+				DD4D12AA15067A70003EE179 /* OpenGL.framework in Frameworks */,
 				DDAEB29814FA6DC40099768F /* IOKit.framework in Frameworks */,
 				DD37E2C714F6CE470024AD53 /* Security.framework in Frameworks */,
 				DD026D0314F2EB4D00BCBFDA /* Cocoa.framework in Frameworks */,
@@ -101,6 +110,8 @@
 		DD026CF314F2EB4D00BCBFDA = {
 			isa = PBXGroup;
 			children = (
+				DD74DF51150E146200DB307B /* GLUT.framework */,
+				DD4D12A915067A70003EE179 /* OpenGL.framework */,
 				DDAEB29714FA6DC40099768F /* IOKit.framework */,
 				DD37E2C614F6CE470024AD53 /* Security.framework */,
 				DD026D0814F2EB4D00BCBFDA /* LED Suit Controller */,
@@ -151,6 +162,8 @@
 				DD026D0914F2EB4D00BCBFDA /* Supporting Files */,
 				DDAEB28D14FA6C3E0099768F /* XbeeController.h */,
 				DDAEB28E14FA6C3E0099768F /* XbeeController.m */,
+				DD4D12A515067A4B003EE179 /* LEDVisualizerView.h */,
+				DD4D12A615067A4B003EE179 /* LEDVisualizerView.m */,
 			);
 			path = "LED Suit Controller";
 			sourceTree = "<group>";
@@ -171,9 +184,9 @@
 			isa = PBXGroup;
 			children = (
 				DD37E18714F6CB4D0024AD53 /* Documentation.html */,
+				DD37E18A14F6CB4D0024AD53 /* GCDAsyncUdpSocket.h */,
 				DD37E18814F6CB4D0024AD53 /* GCDAsyncSocket.h */,
 				DD37E18914F6CB4D0024AD53 /* GCDAsyncSocket.m */,
-				DD37E18A14F6CB4D0024AD53 /* GCDAsyncUdpSocket.h */,
 				DD37E18B14F6CB4D0024AD53 /* GCDAsyncUdpSocket.m */,
 			);
 			name = GCD;
@@ -302,6 +315,7 @@
 				DDAEB2B314FA747E0099768F /* AMSerialPortList.m in Sources */,
 				DDAEB2B414FA747E0099768F /* AMSerialPortList_Deprecated.m in Sources */,
 				DDAEB2B514FA747E0099768F /* AMStandardEnumerator.m in Sources */,
+				DD4D12A715067A4B003EE179 /* LEDVisualizerView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

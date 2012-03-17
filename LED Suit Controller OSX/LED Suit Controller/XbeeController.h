@@ -19,9 +19,20 @@
 #import "AppDelegate.h"
 
 #define MAX_DATA_SIZE 256
-#define NUM_CLIENTS 1
-#define NUM_PIXELS 32
-#define BAUDRATE 19200
+#define NUM_CLIENTS 12
+#define NUM_PIXELS 160
+//#define NUM_PIXELS 32
+#define BAUDRATE 57600          
+
+enum ProtocolTypes {
+    PING = 0x01,
+    STATUS = 0x02,
+    VALUES = 0x03,
+    BULK_VALUES = 0x04,
+    CLOCK = 0x05
+};
+
+#define multicastByte 14
 
 typedef struct  {
     unsigned char type;
@@ -42,7 +53,10 @@ typedef struct {
 typedef struct {
     bool online;
     Pixel pixels[NUM_PIXELS];
+    Pixel sendPixels[NUM_PIXELS];
 } Client;
+
+
 
 @interface XbeeController : NSObject{
     int serialFileDescriptor;
@@ -56,7 +70,9 @@ typedef struct {
     
     BOOL waitingForData;
     
-    NSDate * nextPingTime;
+//    NSDate * nextPingTime;
+    BOOL pinging;
+    
     NSDate * nextValueSendTime;
 
     NSDate * pingTimeoutTime;
@@ -64,10 +80,20 @@ typedef struct {
     NSDate * startTime;
     NSDate * sendTime;
     
+    
     Client clients[NUM_CLIENTS];
     
     float updateRate;
     float test;
+    
+    int demoMode;
+    float demoR;
+    float demoG;
+    float demoB;
+    NSDate * demoTime;
+    
+    NSRecursiveLock * lock;
+    BOOL xbeeConnected;
   //  AMSerialPort *port;
 
 }
@@ -75,6 +101,8 @@ typedef struct {
 //@property (retain, readwrite) AMSerialPort * port;
 @property (readwrite) float updateRate;
 @property (readwrite) float test;
+@property (readwrite) NSRecursiveLock * lock;
+@property (assign) IBOutlet NSButton *TestPatternButton;
 
 - (NSString *) openSerialPort: (NSString *)serialPortFile baud: (speed_t)baudRate;
 - (void) serialReadThread: (NSThread *) parentThread;
@@ -85,5 +113,9 @@ typedef struct {
 -(void) serialWriteMessage:(ArduinoLinkMessage)msg;
 
 - (void) receivedMessage:(ArduinoLinkMessage)msg;
+
+-(IBAction) statusUpdate:(id)sender;
+-(Client*) client:(int)num;
+
 
 @end

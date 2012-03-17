@@ -2,32 +2,51 @@
 #include "SPI.h"
 #include "ArduinoLinkDefines.h"
 
-int clientId = 0;
+int clientId = 3;
 
 int dataPin = 3;   
-int clockPin = 4; 
+int clockPin = 2; 
 long long masterTimeout = 0;
 boolean masterOnline = false;
 
-LPD8806 strip = LPD8806(32, dataPin, clockPin);
+const int numStrips = 5;
+
+LPD8806 strips[numStrips];
+
+
+float vout = 0.0;
+float vin = 0.0;
+float R1 = 56000.0;    // !! resistance of R1 !!
+float R2 = 3900.0;     // !! resistance of R2 !!
+int value = 0;
+
+long long lowBatTimeout = -1;
+
+boolean lowVoltage = false;
 
 int incomingByte = 0;   // for incoming serial data
 
 void setup() {
+  for(int i=0;i<numStrips;i++){
+    strips[i] = LPD8806(38, dataPin+i, clockPin);
+    strips[i].begin();
+
+    for (int u=0; u < strips[i].numPixels(); u++) {
+      strips[i].setPixelColor(u, 0,0,1);
+    }  
+    strips[i].show();
+  }
+
   // Start up the LED strip
-  strip.begin();
+
 
   // Update the strip, to start they are all 'off'
 
-  for (int i=0; i < strip.numPixels(); i++) {
-    strip.setPixelColor(i, 0,0,1);
-  }  
-  strip.show();
+  Serial.begin(57600);
 
+  pinMode(0, INPUT);
 
-  Serial.begin(19200);
-
-  msgSend.destination = CENTRAL;
+  msgSend.destination = 0x0F;
   msgSend.sender = clientId;    
 
   pinMode(13, OUTPUT);  
@@ -35,83 +54,125 @@ void setup() {
 }
 
 
+float voltage(){
+  value = analogRead(0);
+
+  vout = (value) / 1024.0;
+  vin = 5.2*vout / (R2/(R1+R2));  
+  // vin += 0.7;
+  return vin;
+}
+
 void loop(){
-  if(masterOnline){
+  if(voltage() < 6.3){
+    if(lowBatTimeout == -1){
+      lowBatTimeout = millis()+1000;
+    }
+    else if(lowBatTimeout < millis()){
+
+      lowVoltage = true; 
+
+      for(int i=0;i<numStrips;i++){
+        for (int u=0; u < strips[i].numPixels(); u++) {
+          strips[i].setPixelColor(u, 0,0,0);
+        }  
+        strips[i].setPixelColor(0, 1,0,0);
+        strips[i].show();
+      }
+    }
+  } 
+  else {
+    lowBatTimeout = -1;
+   // lowVoltage = false;
+  }
+
+
+
+  if(masterOnline && !lowVoltage){
     if(masterTimeout < millis()){
       masterTimeout = 0; 
       masterOnline = false;
-
-      for (int i=0; i < strip.numPixels(); i++) {
-        strip.setPixelColor(i, 1,0,0);
-      }  
-      strip.show();
+      for(int u=0;u<numStrips;u++){
+        for (int i=0; i < strips[u].numPixels(); i++) {
+          strips[u].setPixelColor(i, 1,0,0);
+        }  
+        strips[u].show();
+      }
     }
   }
-  /* if (Serial.available() > 0) {
-   // read the incoming byte:
-   incomingByte = Serial.read();
-   
-   // say what you got:
-   for (int i=0; i < strip.numPixels(); i++) {
-   strip.setPixelColor(i, incomingByte, incomingByte, incomingByte);
-   }  
-   strip.show();   // write all the pixels out
-   }
-   
-   Serial.println("hej");
-   delay(1000);*/
+
+  masterOnline = true;
+
 
   ArduinoLinkMessage * msg = parseArduinoMessage();
-  if(msg->complete && msg->destination == clientId){
+  if(msg->complete && (msg->destination == clientId || msg->type == CLOCK || msg->destination == 14)){
+
+
     masterTimeout = millis() + 1000;
     masterOnline = true;
-    digitalWrite(13, HIGH);
-    if(msg->type == TYPE_PING){
-      msgSend.type = TYPE_STATUS;
-      msgSend.length = 0;
+
+    if(msg->type == CLOCK && !lowVoltage){
+      for(int i=0;i<numStrips;i++){
+        strips[i].show();   // write all the pixels out
+      }
+    }
+
+    if(msg->type == PING){
+      digitalWrite(13, HIGH);
+
+      msgSend.type = STATUS;
+      msgSend.length = 1;
       msgSend.moreComing = 0;
+      //
+
+      //    value = analogRead(0);
+      //              msgSend.data[0] = int(512*value/1024);
+      msgSend.data[0] = int(voltage()*10);
       // delay(100);
 
       sendArduinoMessage();
 
     }
 
-    if(msg->type == TYPE_VALUES){
+    if(msg->type == VALUES){
       unsigned char offset = msg->data[0];
       unsigned char pixels = (msg->length - 1)/3;
       for (int i=0; i < pixels; i++) {
-        strip.setPixelColor(i+offset, msg->data[i*3+1], msg->data[i*3+2], msg->data[i*3+3
+        strips[0].setPixelColor(i+offset, msg->data[i*3+1], msg->data[i*3+2], msg->data[i*3+3
           ]);
       }  
-      strip.show();   // write all the pixels out
-      /*
-      msgSend.type = 'A';
-       msgSend.length = 0;
-       msgSend.moreComing = 0;
-       sendArduinoMessage();*/
-
     }
-    if(msg->type == TYPE_BULK_VALUES){
-      unsigned char offset = msg->data[0];
-      unsigned char pixels = msg->data[1];
+
+
+    if(msg->type == BULK_VALUES){
+      unsigned char strip = msg->data[0];
+      unsigned char offset = msg->data[1];
+      unsigned char pixels = msg->data[2];
       for (int i=0; i < pixels; i++) {
-        strip.setPixelColor(i+offset, msg->data[2], msg->data[3], msg->data[4]);
+        strips[strip].setPixelColor(i+offset, msg->data[3], msg->data[4], msg->data[5]);
       }  
-      strip.show();   // write all the pixels out
-      /*
-      msgSend.type = 'A';
-       msgSend.length = 0;
-       msgSend.moreComing = 0;
-       sendArduinoMessage();*/
 
     }
 
 
   }
-  // delay(1);
-  digitalWrite(13, LOW);
 
+  digitalWrite(13, LOW);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
