@@ -59,6 +59,7 @@ void setup() {
 
   masterTimeout = 1000;
   masterOnline = true;
+ 
 }
 
 
@@ -72,6 +73,7 @@ float voltage(){
 }
 
 void loop(){
+
   digitalWrite(12, HIGH);
   if(voltage() < 6.3){
     if(lowBatTimeout == -1){
@@ -105,7 +107,7 @@ void loop(){
         for (int u=0; u < strips[i].numPixels(); u++) {
           strips[i].setPixelColor(u, 0,0,0);
         }  
-        strips[i].setPixelColor(0, 0,0,0);
+        strips[i].setPixelColor(0, 0,0,1);
         strips[i].show();
       }
     }
@@ -181,10 +183,16 @@ void loop(){
       }
       if(destinationMatch){
         for(int i=0;i<numStrips;i++){
-          if(
+          if((1 << i) & msg->data[2]){
+            for (int j=0; j < strips[i].numPixels(); j++) {
+              strips[i].setPixelColor(j, msg->data[3], msg->data[4], msg->data[5]);
+            }  
+          }
         }
       }
     }
+    
+    
     if(msg->type == BULK_SEGMENT_MULTI_SUIT){
 
       boolean destinationMatch;
@@ -234,15 +242,6 @@ void loop(){
   digitalWrite(12, LOW);
   digitalWrite(13, LOW);
 }
-
-
-
-
-
-
-
-
-
 
 
 

@@ -14,6 +14,7 @@
 #include <IOKit/IOBSD.h>
 #include <IOKit/serial/ioss.h>
 #include <sys/ioctl.h>
+#include <time.h>
 
 
 #import "AppDelegate.h"
@@ -35,6 +36,10 @@ enum ProtocolTypes {
     BULK_SEGMENT_MULTI_SUIT = 0x08,
     BULK_STRIP_MULTI_SUIT = 0x09
 
+/*    BULK_ALL_STRIPS_DIM = 0x10,
+    BULK_SEGMENT_MULTI_SUIT_DIM = 0x11,
+    BULK_STRIP_MULTI_SUIT_DIM = 0x12
+*/
 };
 
 #define multicastByte 14
@@ -84,7 +89,9 @@ typedef struct {
     NSDate * pingTimeoutTime;
     int clientPingStatus;
     NSDate * startTime;
-    NSDate * sendTime;
+    //NSDate * sendTime;
+    time_t sendTime;
+
     
     
     Client clients[NUM_CLIENTS];

@@ -165,7 +165,7 @@
                     }
                     [self serialBufferMessage:msg];
                     #ifdef DEBUG_LOG
-                                                    NSLog(@"Send BULK_ALL_STRIPS  %i  :  %X %X",i,msg.data[1],msg.data[0]);
+                                                    NSLog(@"Send BULK_ALL_STRIPS Client: %i  :  %X %X   (%i %i %i)",i,msg.data[1],msg.data[0], msg.data[2], msg.data[3], msg.data[4]);
 #endif
                     numSend++;
                     
@@ -237,25 +237,41 @@
                             }
                         }
                         
+                        bool stripSend[5];
+                        for(int j=0;j<5;j++){
+                            stripSend[j] = NO;
+                        }
                         for(int strip=0;strip<5;strip++){
-                            if(allTheSame[strip] && updatesOnStrip[strip]){
+                            if(allTheSame[strip] && updatesOnStrip[strip] && !stripSend[strip]){
+                                msg.data[2] = 0;
+
+                                
+                                for(int otherStrips = strip;otherStrips<5;otherStrips++){
+                                    //Other strip with same value (or same strip)
+                                    if(allTheSame[otherStrips] &&[self pixel:stripPixel[otherStrips] isEqualTo:stripPixel[strip]]){
+                                        msg.data[2] += 1 << otherStrips;
+                                        stripSend[otherStrips] = YES;
+                                       // NSLog(@"Bundle %i to %i   0x%X",otherStrips, strip, 1 << strip);
+                                    }
+                        
+                                }
+                                
 //                                NSLog(@"All the same on strip %i",strip);
                                 
-                                msg.data[2] = strip;
                                 msg.data[3] = stripPixel[strip].r*100;
                                 msg.data[4] = stripPixel[strip].g*100;
                                 msg.data[5] = stripPixel[strip].b*100;
                                
                                 [self serialBufferMessage:msg];
                                 #ifdef DEBUG_LOG
-                                                              NSLog(@"Send BULK_STRIP_MULTI_SUIT  Client: %i  Strip: %i",i, strip);
+                                                              NSLog(@"Send BULK_STRIP_MULTI_SUIT  Client: %i (0x%X  0x%X) Strip: %i (0x%X)",i,msg.data[1],msg.data[0] , strip, msg.data[2]);
 #endif
                                 numSend ++;
 
                                 for(int q=0;q<NUM_CLIENTS;q++){
                                     if(similair[q]){
                                         for(int j=0;j<NUM_PIXELS;j++){
-                                            if([self stripForPixel:j] == strip){
+                                            if(stripSend[[self stripForPixel:j]]){
                                                 clients[q].sendPixels[j] = clients[q].pixels[j];
                                                 clients[q].sendPixels[j].justSend = YES;
                                             }
@@ -431,7 +447,8 @@
             
         }
         }
-    if(sendTime == nil || [sendTime timeIntervalSinceNow] < -0.5){
+    //if(sendTime == nil || [sendTime timeIntervalSinceNow] < -0.5){
+    if(time(NULL) > sendTime + 0.5){
         ArduinoLinkMessage msg;
         msg.type = ALIVE;
         msg.destination = 0;
@@ -482,13 +499,15 @@
         
         float packetPrSec = (float)BAUDRATE/bitLength;
         float secDelay = 1.0/packetPrSec;
-        [NSThread sleepForTimeInterval:secDelay+0.01];
+//        [NSThread sleepForTimeInterval:secDelay+0.01];
+                [NSThread sleepForTimeInterval:secDelay+0.01];
        // printf("%f   ",secDelay+0.015);
         
-        if(sendTime)
+      /*  if(sendTime)
             [sendTime release];
         sendTime = [[NSDate date] retain];
-        
+        */
+        sendTime = time(NULL);
         
         outputBufferCounter = 0;
 
@@ -502,7 +521,10 @@
 - (void) bufferBytes: (unsigned char * ) bytes length:(int)length {
     if(length+outputBufferCounter > 127){
          NSLog(@"Buffer overflow!");
+
         [self writeBuffer];
+        [NSThread sleepForTimeInterval:0.01];
+
         //        return;
     }
     memcpy(outputBuffer+outputBufferCounter, bytes, length);
@@ -532,6 +554,7 @@
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     [NSThread setThreadPriority:1.0];
     startTime = [[[NSDate alloc] init] retain];
+    demoMode = 0;
     while(TRUE) {
         //Test data
         if([TestPatternButton state]){
@@ -555,7 +578,7 @@
                 }
                 if(demoR > 1){
                     demoR = 0;
-                    demoMode++;
+                    demoMode=1;
                 }
             }
             if(demoMode == 1){
@@ -634,6 +657,10 @@
                 float b = (sin(-[demoTime timeIntervalSinceNow]*5+3.14/3.0+3.14/3.0) + 1)/2.0;
                 
                 for(int i=0;i<NUM_CLIENTS;i++){
+                    float r = (sin(-[demoTime timeIntervalSinceNow]*5+i) + 1 )/2.0;
+                    float g = (sin(-[demoTime timeIntervalSinceNow]*5+i+3.14/3.0) + 1)/2.0;
+                    float b = (sin(-[demoTime timeIntervalSinceNow]*5+i+3.14/3.0+3.14/3.0) + 1)/2.0;
+
                     for(int u=0;u<NUM_PIXELS;u++){
                         clients[i].pixels[u].r = r;
                         clients[i].pixels[u].g = g;
@@ -666,9 +693,9 @@
         
         
         if(!waitingForData){
-            @synchronized(self){
-                
-                if(pinging){
+            
+            if(pinging){
+                @synchronized(self){
                     //Ping!
                     
                     //        [self writeByte:'a'];
@@ -694,9 +721,9 @@
         
         if(!waitingForData && !pinging){
             //  if((nextValueSendTime == nil || [nextValueSendTime timeIntervalSinceNow] < 0) && updateRate > 0){
-            @synchronized(self){
+            //@synchronized(self){
                 [self sendValues];
-            }
+           // }
             
             //  }          
         }
