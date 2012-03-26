@@ -13,6 +13,7 @@
 
 @implementation XbeeController
 @synthesize TestPatternButton;
+@synthesize testLedButton;
 //@synthesize port;
 @synthesize updateRate, test, lock, pixelsUpdated;
 
@@ -70,13 +71,13 @@
 
 -(int) stripForPixel:(int)pixel{
     if(pixel < 38)
-        return 0;
-    if(pixel < 76)
         return 1;
+    if(pixel < 76)
+        return 0;
     if(pixel < 102)
-        return 2;
-    if(pixel < 128)
         return 3;
+    if(pixel < 128)
+        return 2;
     return 4;
 }
 
@@ -557,7 +558,26 @@
     demoMode = 0;
     while(TRUE) {
         //Test data
-        if([TestPatternButton state]){
+        if([testLedButton state]){
+
+            
+            for(int i=0;i<NUM_CLIENTS;i++){
+                for(int u=0;u<NUM_PIXELS;u++){
+                    
+                    float r = (sin(-[startTime timeIntervalSinceNow]*1 + [self stripForPixel:u]) + 1)/2.0;
+                    float g = (sin(-[startTime timeIntervalSinceNow]*1+3.14*2/3.0+ [self stripForPixel:u]) + 1)/2.0;
+                    float b = (sin(-[startTime timeIntervalSinceNow]*1+3.14*2/3.0+3.14/3.0+ [self stripForPixel:u]) + 1)/2.0;
+                    
+                    clients[i].pixels[u].r = r;
+                    clients[i].pixels[u].g = g;
+                    clients[i].pixels[u].b = b;
+                    
+                } 
+            }
+            pixelsUpdated = YES;
+
+        }        
+        else if([TestPatternButton state]){
             if(demoMode == 0){
                 demoR -= [demoTime timeIntervalSinceNow]*0.2;
                 

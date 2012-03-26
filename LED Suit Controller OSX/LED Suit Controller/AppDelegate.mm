@@ -14,6 +14,7 @@
 
 @implementation AppDelegate
 @synthesize testPatternButton;
+@synthesize testLedButton;
 
 @synthesize window, logView, clientStates;
 
@@ -196,7 +197,7 @@
       fromAddress:(NSData *)address
 withFilterContext:(id)filterContext
 {
-    if(![testPatternButton state]){   
+    if(![testPatternButton state] && ![testLedButton state]){   
         NSString * string = [NSString stringWithCString:((const  char*)[data bytes]) encoding:NSUTF8StringEncoding];
         if([string length] > 6 && [[string substringToIndex:7] isEqualToString:@"Art-Net"]){
             if(!artnetReceived){

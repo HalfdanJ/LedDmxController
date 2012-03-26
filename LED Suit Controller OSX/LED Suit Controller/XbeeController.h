@@ -120,6 +120,7 @@ typedef struct {
 @property (readwrite) float test;
 @property (readwrite) NSRecursiveLock * lock;
 @property (assign) IBOutlet NSButton *TestPatternButton;
+@property (assign) IBOutlet NSButton *testLedButton;
 @property (readwrite) BOOL pixelsUpdated;
 
 - (NSString *) openSerialPort: (NSString *)serialPortFile baud: (speed_t)baudRate;

@@ -38,6 +38,7 @@
 @property (retain) IBOutlet NSTextView *logView;
 @property (readwrite, retain) NSMutableArray * clientStates;
 @property (assign) IBOutlet NSButton *testPatternButton;
+@property (assign) IBOutlet NSButton *testLedButton;
 
 -(IBAction)sendTestValue:(id)sender;
 - (void)logError:(NSString *)msg;
